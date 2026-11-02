@@ -541,7 +541,7 @@ legend + * { clear: both; }
 .feld i { font-style: normal; font-weight: 400; color: var(--grau); }
 .feld small { display: block; margin-top: .35rem; font-size: .88rem; color: var(--grau); }
 #teilName .feld { margin-top: 0; }
-input[type="text"], textarea {
+input[type="text"], input[type="email"], textarea {
   display: block;
   width: 100%;
   font: inherit;
@@ -1212,15 +1212,16 @@ html.mit-umschlag .umschlag-buehne { display: flex; }
       <fieldset class="teil" id="teilWichteln">
         <legend>Wichtelst du mit?</legend>
         <div class="regeln">
-          <p>Am <span data-auslosung>1. Dezember</span> lost der Wichtel-Computer aus. Danach sagt dir Leah, wen du beschenkst. Dich beschenkt dafür jemand anderes. Und pssst: nicht verraten!</p>
+          <p>Sobald Leah das Startsignal gibt, lost der Wichtel-Computer aus und du bekommst eine E-Mail mit deinem Wichtel. Dich beschenkt dafür jemand anderes. Und pssst: nicht verraten!</p>
           <p class="budget">Budget: höchstens <span data-budget>15 €</span></p>
         </div>
         <div class="wahl">
           <label class="kachel"><input type="radio" name="wichtelt" value="ja"><span class="kachel-emoji" aria-hidden="true">🎁</span><span>Ich wichtel mit</span></label>
           <label class="kachel"><input type="radio" name="wichtelt" value="nein"><span class="kachel-emoji" aria-hidden="true">👀</span><span>Ich schau nur zu</span></label>
         </div>
-        <label class="feld" id="tippFeld" hidden><span>Kleiner Tipp für deinen Wichtel <i>(freiwillig)</i></span>
-          <textarea name="tipp" rows="2" maxlength="200" placeholder="z. B. mag Lakritz, hat schon genug Tassen"></textarea>
+        <label class="feld" data-feld="email" id="mailFeld" hidden><span>Deine E-Mail für die Wichtel-Post</span>
+          <input type="email" name="email" autocomplete="email" inputmode="email" maxlength="120" placeholder="name@beispiel.de">
+          <small>Dahin schickt dir der Wichtel-Computer deinen Wichtel. Wird nirgends angezeigt.</small>
         </label>
       </fieldset>
 
@@ -1242,7 +1243,7 @@ html.mit-umschlag .umschlag-buehne { display: flex; }
   <div class="zettel zu" id="geschlossen" hidden>
     <svg class="stechpalme" aria-hidden="true" focusable="false"><use href="#stechpalme"/></svg>
     <h2>Die Anmeldung ist geschlossen</h2>
-    <p>Wer mitwichtelt, erfährt ab dem <span data-auslosung>1. Dezember</span> von Leah, wen er beschenkt. Bis bald am Buffet!</p>
+    <p>Wer mitwichtelt, bekommt seinen Wichtel per E-Mail, sobald Leah das Startsignal gibt. Bis bald am Buffet!</p>
   </div>
 </main>
 
@@ -1291,7 +1292,6 @@ const CONFIG = {
   API_URL: "https://script.google.com/macros/s/AKfycbwKWgC1cDgdLqXXnPnj61LbjVxsYpP_xfRLzaN1sPBgChADGecq-8K6eXeUTDMD8iVk/exec",
   // Anmeldeschluss (deutsche Winterzeit = +01:00)
   DEADLINE: "2026-11-30T23:59:59+01:00",
-  AUSLOSUNG: "1. Dezember",
   BUDGET: "15 €",
   // Der Brunch selbst. Antippen auf der Seite = Termin in den eigenen Kalender übernehmen.
   // Bei einer Änderung auch die Datei friendsmas-brunch.ics anpassen (für Apple- und Outlook-Kalender).
@@ -1324,6 +1324,7 @@ const FEHLER = {
   name: "Wie heißt du? Bitte trag deinen Vornamen ein.",
   kommt: "Kommst du? Bitte wähle eine Antwort.",
   wichtelt: "Wichtelst du mit? Bitte wähle eine Antwort.",
+  email: "Wohin soll die Wichtel-Post? Bitte gib eine gültige E-Mail-Adresse ein.",
   vergeben: "Das hat sich gerade jemand anderes geschnappt. Such dir bitte was anderes aus.",
   closed: "Die Anmeldung ist geschlossen.",
   code: "Das Zauberwort stimmt nicht (mehr). Bitte lade die Seite neu und gib es nochmal ein.",
@@ -1600,7 +1601,7 @@ const leah = (() => {
     laufTimer = setTimeout(() => begleiter.classList.remove("laeuft"), 260);
   }, { passive: true });
   // Beim Tippen auf dem Handy aus dem Weg gehen
-  document.addEventListener("focusin", e => { if (e.target.matches('input[type="text"], textarea')) begleiter.classList.add("tippt"); });
+  document.addEventListener("focusin", e => { if (e.target.matches('input[type="text"], input[type="email"], textarea')) begleiter.classList.add("tippt"); });
   document.addEventListener("focusout", () => begleiter.classList.remove("tippt"));
 
   return { sagen, begruessen };
@@ -1687,7 +1688,6 @@ function zeigeFrist() {
   $("fristNoch").classList.toggle("knapp", tage <= 3);
   $("kugel").setAttribute("aria-label", "Antwort bis " + kurz + " (" + text + ")");
   document.querySelectorAll("[data-budget]").forEach(e => e.textContent = CONFIG.BUDGET);
-  document.querySelectorAll("[data-auslosung]").forEach(e => e.textContent = CONFIG.AUSLOSUNG);
 }
 
 /* ---------- Termin in den Kalender ---------- */
@@ -1925,7 +1925,7 @@ function aktualisiereSichtbarkeit(animiert) {
   if (animiert && vorher && !box.hidden) { box.classList.remove("auftauchen"); void box.offsetWidth; box.classList.add("auftauchen"); }
   $("kalenderKnopf").hidden = kommt !== "ja";
   const wichtelt = form.querySelector('input[name="wichtelt"]:checked')?.value;
-  $("tippFeld").hidden = wichtelt !== "ja";
+  $("mailFeld").hidden = wichtelt !== "ja";
 }
 
 function waehlePosten(id) {
@@ -1951,7 +1951,7 @@ function sammle() {
     name: feld("name").value.replace(/\s+/g, " ").trim(),
     kommt,
     wichtelt,
-    tipp: wichtelt === "ja" ? feld("tipp").value.trim() : "",
+    email: wichtelt === "ja" ? feld("email").value.trim() : "",
     posten: kommt === "ja" ? gewaehltePosten().map(p => ({ id: p.id, name: p.name })) : [],
     extra: kommt === "ja" ? feld("extra").value.trim() : ""
   };
@@ -1960,6 +1960,7 @@ function pruefe(d) {
   if (!d.name) return ["name", feld("name")];
   if (!d.kommt) return ["kommt", form.querySelector('input[name="kommt"]')];
   if (d.kommt === "ja" && !d.wichtelt) return ["wichtelt", form.querySelector('input[name="wichtelt"]')];
+  if (d.wichtelt === "ja" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) return ["email", feld("email")];
   return null;
 }
 function markiere(schluessel, el) {
@@ -2001,7 +2002,7 @@ async function abschicken(e) {
       return;
     }
     const neu = !eigeneAntwort();
-    schreib(SPEICHER_ANTWORT, { name: daten.name, kommt: daten.kommt, wichtelt: daten.wichtelt, tipp: daten.tipp, posten: daten.posten.map(p => p.id), extra: daten.extra });
+    schreib(SPEICHER_ANTWORT, { name: daten.name, kommt: daten.kommt, wichtelt: daten.wichtelt, email: daten.email, posten: daten.posten.map(p => p.id), extra: daten.extra });
     stand = antwort; letzteLadung = Date.now(); ladeFehler = false;
     zeigeZaehler(); aktualisiereListen(); zeigeStandZeit();
     $("schonDa").hidden = false;
@@ -2009,7 +2010,7 @@ async function abschicken(e) {
       konfetti(knopf);
       const mit = daten.posten.length ? " Ich hab " + daten.posten.map(p => p.name).join(", ") + " für dich durchgestrichen." : "";
       leah.sagen(daten.wichtelt === "ja"
-        ? "Abgeschickt! 🎉" + mit + " Am " + CONFIG.AUSLOSUNG + " sag ich dir, wen du beschenkst. Trag dir den Brunch gleich in den Kalender ein! 📅"
+        ? "Abgeschickt! 🎉" + mit + " Sobald ich das Startsignal gebe, kommt dein Wichtel per Mail. Trag dir den Brunch gleich in den Kalender ein! 📅"
         : (neu ? "Abgeschickt! 🎉" + mit + " Ich freu mich auf dich! Trag dir den Brunch gleich in den Kalender ein! 📅" : "Hab’s geändert! 👍" + mit), { stimmung: "juhu" });
       if (daten.posten.length || daten.extra) {
         setTimeout(() => $("buffet").scrollIntoView({ behavior: sanft(), block: "start" }), 1200);
@@ -2032,7 +2033,7 @@ function fuelleAus(a) {
   if (a.kommt) setze("kommt", a.kommt);
   if (a.wichtelt) setze("wichtelt", a.wichtelt);
   (a.posten || []).forEach(id => setze("posten", id));
-  feld("tipp").value = a.tipp || "";
+  feld("email").value = a.email || "";
   feld("extra").value = a.extra || "";
   $("schonDa").hidden = false;
   aktualisiereSichtbarkeit(false);
@@ -2052,7 +2053,7 @@ function leahOrte() {
   const orte = new Map([
     [$("teilName"), () => "Erst mal: Wie heißt du? Der Vorname reicht völlig."],
     [$("teilKommt"), () => "Und jetzt die wichtigste Frage des Jahres … 🥁 " + terminText(false) + ", bist du dabei? Antworte bitte bis " + $("fristLang").textContent + "."],
-    [$("teilWichteln"), () => "Wichteln! Höchstens " + CONFIG.BUDGET + ". Am " + CONFIG.AUSLOSUNG + " sag ich dir, wen du beschenkst."],
+    [$("teilWichteln"), () => "Wichteln! Höchstens " + CONFIG.BUDGET + ". Sobald ich das Startsignal gebe, kommt dein Wichtel per Mail."],
     [$("teilBuffet"), () => {
       const frei = offenePosten();
       if (!frei.length) return "Die Liste ist komplett vergeben, wow! Bring einfach was, worauf du Lust hast.";
@@ -2257,7 +2258,7 @@ function start() {
     if (t.name === "kommt") {
       leah.sagen(t.value === "ja" ? "JUHU! 🥳 Ich freu mich riesig auf dich!" : "Ohh nein … 😢 Schade! Aber danke, dass du Bescheid sagst.", { stimmung: t.value === "ja" ? "juhu" : "traurig" });
     } else if (t.name === "wichtelt") {
-      leah.sagen(t.value === "ja" ? "Yay! 🎁 Und psst: Ich verrate nix. 🤫" : "Auch okay! Zuschauen ist auch Sport. 👀", { stimmung: t.value === "ja" ? "juhu" : "" });
+      leah.sagen(t.value === "ja" ? "Yay! 🎁 Trag noch deine E-Mail ein, da kommt dein Wichtel hin. Und psst: Ich verrate nix. 🤫" : "Auch okay! Zuschauen ist auch Sport. 👀", { stimmung: t.value === "ja" ? "juhu" : "" });
     } else if (t.name === "posten" && t.checked) {
       const name = POSTEN_NACH_ID[t.value].name;
       const sprueche = ["Mmh, " + name + "! 😋", name + "? Perfekt!", "Notiert: " + name + " ✍️", name + ", wie schön! 🎄"];
