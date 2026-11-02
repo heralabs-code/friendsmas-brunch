@@ -254,18 +254,95 @@ h1 .zeile-2::after { transform: scaleX(-1); }
 .funke.f3 { right: .55em; bottom: -.12em; font-size: .13em; animation-delay: -2.2s; }
 @keyframes sternchen { 0%, 100% { opacity: .2; transform: scale(.6) rotate(0); } 50% { opacity: 1; transform: scale(1.1) rotate(45deg); } }
 
-.event-info {
-  display: inline-block;
-  margin: 1.75rem 0 0;
-  padding: .5rem 1.15rem;
-  font-weight: 600;
+/* Termin: antippen = in den Kalender */
+.termin {
+  display: inline-flex;
+  align-items: center;
+  gap: .95rem;
+  margin: 2rem auto 0;
+  padding: .7rem 1.2rem .7rem .75rem;
+  font: inherit;
+  text-align: left;
   color: var(--creme);
-  background: rgba(11, 29, 24, .4);
-  border: 1px solid rgba(201, 165, 92, .5);
-  border-radius: 999px;
+  background: rgba(11, 29, 24, .55);
+  border: 1px solid rgba(201, 165, 92, .6);
+  border-radius: 18px;
+  box-shadow: 0 18px 36px -18px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(232, 211, 160, .12);
+  cursor: pointer;
+  transition: transform .2s cubic-bezier(.3, 1.5, .5, 1), border-color .2s, background-color .2s;
 }
+.termin:hover { transform: translateY(-2px); border-color: var(--gold-hell); background: rgba(11, 29, 24, .75); }
+.termin:focus-visible { outline: 3px solid var(--gold-hell); outline-offset: 3px; }
+.termin .kalender { width: 3.9rem; }
+.termin .kal-tag { font-size: 1.9rem; }
+.termin-wann { display: block; font-family: var(--display); font-weight: 600; font-size: 1.25rem; line-height: 1.2; }
+.termin-ort { display: block; margin-top: .1rem; font-size: .92rem; color: rgba(248, 242, 230, .8); }
+.termin-aktion { display: inline-flex; align-items: center; gap: .35rem; margin-top: .3rem; font-size: .88rem; font-weight: 700; color: var(--gold-hell); text-decoration: underline; text-decoration-color: rgba(232, 211, 160, .45); text-underline-offset: 3px; }
 .stand { margin: 1.4rem auto 0; max-width: 26rem; color: rgba(248, 242, 230, .8); text-wrap: balance; }
-.event-info:not([hidden]) + .stand { margin-top: .9rem; }
+
+.kalender-knopf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  width: 100%;
+  margin-top: .75rem;
+  padding: .7rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--tanne);
+  background: #fbf1dc;
+  border: 1.5px dashed rgba(143, 111, 48, .6);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s;
+}
+.kalender-knopf:hover { background: #f6e6c2; border-style: solid; }
+.kalender-knopf:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.kal-dialog {
+  width: min(92vw, 24rem);
+  padding: 0;
+  color: var(--tinte);
+  background: linear-gradient(180deg, var(--papier), var(--creme));
+  border: 0;
+  border-radius: 22px;
+  box-shadow: 0 0 0 1px rgba(201, 165, 92, .7), 0 40px 80px -20px rgba(0, 0, 0, .8);
+}
+.kal-dialog::backdrop { background: rgba(6, 16, 13, .7); backdrop-filter: blur(3px); }
+.kal-dialog[open] { animation: blase .35s cubic-bezier(.3, 1.5, .5, 1); }
+.kal-dialog form { padding: 1.6rem 1.4rem 1.3rem; text-align: center; }
+.kal-dialog h2 { margin: .15rem 0 .2rem; font-family: var(--display); font-style: italic; font-weight: 500; font-size: 1.9rem; font-variation-settings: var(--weich); color: var(--tanne); }
+.kal-dialog .kal-wann { margin: 0 0 1.2rem; font-weight: 600; }
+.kal-wahl { display: grid; gap: .6rem; }
+.kal-option {
+  display: block;
+  padding: .85rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--creme);
+  background: linear-gradient(160deg, var(--tanne-2), var(--tanne));
+  border: 1px solid rgba(201, 165, 92, .6);
+  border-radius: 14px;
+  cursor: pointer;
+}
+.kal-option.zwei { background: linear-gradient(180deg, #ba2a41, var(--beere-dunkel)); }
+.kal-option:hover { filter: brightness(1.08); }
+.kal-option:focus-visible, .kal-zu:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.kal-zu { margin-top: .9rem; padding: .4rem 1rem; font: inherit; font-weight: 600; color: var(--grau); background: none; border: 0; cursor: pointer; text-decoration: underline; }
+
+/* Dackel auf der Lichterkette */
+.dackel-weg { pointer-events: auto; cursor: pointer; }
+.dackel.hops { animation: dackelhops .55s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes dackelhops { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-14px); } }
+.d-bein { transform-box: fill-box; transform-origin: 50% 0; animation: beinchen .34s ease-in-out infinite alternate; }
+.d-bein.b2, .d-bein.b3 { animation-delay: -.17s; }
+@keyframes beinchen { from { transform: rotate(-24deg); } to { transform: rotate(24deg); } }
+.d-schwanz { transform-box: fill-box; transform-origin: 100% 100%; animation: wedeln .28s ease-in-out infinite alternate; }
+@keyframes wedeln { from { transform: rotate(-14deg); } to { transform: rotate(16deg); } }
+.d-rumpf { animation: wippen .34s ease-in-out infinite alternate; }
+@keyframes wippen { from { transform: translateY(0); } to { transform: translateY(-1.2px); } }
 .stand b { color: var(--gold-hell); font-weight: 700; }
 .hero-gruss, .zu p { text-wrap: balance; }
 
@@ -286,7 +363,9 @@ h1 .zeile-2::after { transform: scaleX(-1); }
 @keyframes huepfen { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-9%); } }
 
 .leah-hero { display: flex; align-items: flex-end; justify-content: center; gap: .65rem; max-width: 30rem; margin: 2.1rem auto 0; text-align: left; }
-.leah-gross { flex: 0 0 auto; width: 8.4rem; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .35)); }
+.leah-gross, .leah-klein { display: block; }
+.leah-hero > .leah-tipp { flex: 0 0 auto; }
+.leah-gross { width: 8.4rem; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .35)); }
 .leah-hero .sprechblase { flex: 1 1 auto; margin-bottom: 4.6rem; }
 @media (min-width: 560px) { .leah-gross { width: 10rem; } .leah-hero .sprechblase { margin-bottom: 5.6rem; } }
 
@@ -319,39 +398,49 @@ h1 .zeile-2::after { transform: scaleX(-1); }
 .sprechblase.neu { animation: blase .4s cubic-bezier(.3, 1.5, .5, 1); }
 @keyframes blase { from { opacity: .3; transform: scale(.92); } to { opacity: 1; transform: none; } }
 
+.leah-tipp { /* Leah ist anklickbar */
+  padding: 0;
+  font: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .2s cubic-bezier(.3, 1.6, .5, 1);
+}
+.leah-tipp:hover { transform: translateY(-3px) rotate(-2deg); }
+.leah-tipp:active { transform: scale(.96); }
+.leah-tipp:focus-visible { outline: 3px solid var(--gold-hell); outline-offset: 4px; border-radius: 12px; }
+
 .begleiter {
   position: fixed;
-  left: .75rem;
-  bottom: .75rem;
+  left: .2rem;
+  bottom: 0;
   z-index: 40;
   display: flex;
   align-items: flex-end;
-  gap: .6rem;
+  gap: .2rem;
   pointer-events: none;
-  transition: opacity .3s, transform .4s cubic-bezier(.3, 1.4, .5, 1);
+  transition: opacity .3s, transform .45s cubic-bezier(.3, 1.4, .5, 1);
 }
 .begleiter.versteckt { opacity: 0; transform: translateY(140%); }
 @media (max-width: 899px) { .begleiter.tippt { opacity: 0; transform: translateY(140%); } }
 .begleiter-knopf {
   flex: 0 0 auto;
-  width: 4rem;
-  height: 4rem;
-  padding: 0;
-  overflow: hidden;
-  background: radial-gradient(circle at 50% 35%, #2a6450, var(--tanne));
-  border: 2px solid var(--gold);
-  border-radius: 50%;
-  box-shadow: 0 12px 26px -8px rgba(0, 0, 0, .85);
-  cursor: pointer;
+  width: 5.2rem;
+  margin-bottom: -1.3rem; /* steht an der unteren Bildschirmkante */
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .55));
   pointer-events: auto;
-  -webkit-tap-highlight-color: transparent;
 }
+@media (min-width: 900px) { .begleiter { left: 1rem; } .begleiter-knopf { width: 6.4rem; } }
 .begleiter.versteckt .begleiter-knopf { pointer-events: none; }
-.begleiter-knopf:focus-visible { outline: 3px solid var(--gold-hell); outline-offset: 3px; }
-.begleiter-knopf .leah-svg { width: 100%; height: 100%; }
+.leah-klein .leah-svg { transform-origin: 50% 100%; }
+.leah-klein .arm { opacity: 0; transition: opacity .2s; }
+.leah-klein.winkt .arm { opacity: 1; }
+.begleiter.laeuft .leah-klein .leah-svg { animation: gehen .44s ease-in-out infinite; }
+@keyframes gehen { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-6%) rotate(3deg); } }
 .begleiter .sprechblase {
   max-width: min(19rem, calc(100vw - 6.4rem));
-  margin-bottom: .45rem;
+  margin-bottom: 2.4rem;
   pointer-events: auto;
   cursor: pointer;
   transform-origin: 0 100%;
@@ -984,11 +1073,18 @@ html.mit-umschlag .umschlag-buehne { display: flex; }
     </button>
     <p class="hero-gruss">Leah lädt ein</p>
     <h1 tabindex="-1"><span class="zeile-1">Friendsmas<span class="funke f1" aria-hidden="true">✦</span><span class="funke f2" aria-hidden="true">✦</span><span class="funke f3" aria-hidden="true">✦</span></span> <span class="zeile-2"><span>Brunch</span></span></h1>
+    <button type="button" class="termin" id="termin" data-kalender aria-haspopup="dialog">
+      <span class="kalender" aria-hidden="true"><span class="kal-monat" id="terminMonat">Dez</span><span class="kal-tag" id="terminTag">20</span></span>
+      <span>
+        <span class="termin-wann" id="terminWann">Sonntag, 20. Dezember · 11 Uhr</span>
+        <span class="termin-ort" id="terminOrt" hidden></span>
+        <span class="termin-aktion">📅 In meinen Kalender</span>
+      </span>
+    </button>
     <div class="leah-hero" id="leahHero">
-      <div class="leah leah-gross" id="leahGross"></div>
+      <button type="button" class="leah-tipp" id="leahGrossKnopf" aria-label="Leah antippen"><span class="leah leah-gross" id="leahGross"></span></button>
       <div class="sprechblase" id="blaseGross" aria-hidden="true"><span class="wer">Leah</span><p></p></div>
     </div>
-    <p class="event-info" id="eventInfo" hidden></p>
     <p class="stand" id="stand" aria-live="polite">Einen Moment, ich zähle die Gäste …</p>
   </header>
 </div>
@@ -1025,6 +1121,7 @@ html.mit-umschlag .umschlag-buehne { display: flex; }
         <label class="kachel ja"><input type="radio" name="kommt" value="ja"><span class="kachel-emoji" aria-hidden="true">🥳</span><span>Ich komme!</span></label>
         <label class="kachel"><input type="radio" name="kommt" value="nein"><span class="kachel-emoji" aria-hidden="true">😢</span><span>Ich kann leider nicht</span></label>
       </div>
+      <button type="button" class="kalender-knopf" id="kalenderKnopf" data-kalender aria-haspopup="dialog" hidden>📅 <span id="kalenderKnopfText">20. Dezember in meinen Kalender eintragen</span></button>
     </fieldset>
 
     <div id="nurZusage" hidden>
@@ -1066,7 +1163,7 @@ html.mit-umschlag .umschlag-buehne { display: flex; }
 </main>
 
 <section class="tisch ebene" id="buffet" aria-labelledby="buffetTitel">
-  <div class="lichter" data-lichter aria-hidden="true"></div>
+  <div class="lichter" data-lichter="flach" data-dackel aria-hidden="true"></div>
   <div class="tisch-innen">
     <div class="tisch-kopf">
       <p class="tisch-marke">Live vom Buffet</p>
@@ -1083,8 +1180,21 @@ html.mit-umschlag .umschlag-buehne { display: flex; }
 <footer class="fuss ebene"><p>Bis bald am Buffet!</p><p class="gruss">Deine Leah</p><small>Friendsmas 2026 ✦</small></footer>
 </div>
 
+<dialog class="kal-dialog" id="kalDialog" aria-labelledby="kalTitel">
+  <form method="dialog">
+    <span class="marke">Termin speichern</span>
+    <h2 id="kalTitel">Friendsmas Brunch</h2>
+    <p class="kal-wann" id="kalWann">Sonntag, 20. Dezember 2026 · 11 Uhr</p>
+    <div class="kal-wahl">
+      <a class="kal-option" id="kalGoogle" href="#" target="_blank" rel="noopener">Google Kalender</a>
+      <button type="button" class="kal-option zwei" id="kalIcs">Apple- oder Outlook-Kalender</button>
+    </div>
+    <button class="kal-zu" value="zu">Schließen</button>
+  </form>
+</dialog>
+
 <div class="begleiter versteckt" id="begleiter">
-  <button type="button" class="begleiter-knopf" id="begleiterKnopf" aria-label="Was sagt Leah?"><span class="leah leah-klein" id="leahKlein"></span></button>
+  <button type="button" class="begleiter-knopf leah-tipp" id="begleiterKnopf" aria-label="Leah antippen"><span class="leah leah-klein" id="leahKlein"></span></button>
   <div class="sprechblase zu" id="blaseKlein" aria-hidden="true"><span class="wer">Leah</span><p></p></div>
 </div>
 <p class="nur-sr" id="ansage" role="status" aria-live="polite"></p>
@@ -1098,8 +1208,13 @@ const CONFIG = {
   DEADLINE: "2026-11-30T23:59:59+01:00",
   AUSLOSUNG: "1. Dezember",
   BUDGET: "15 €",
-  // Optional, wird unter der Überschrift angezeigt, z. B. "Samstag, 12. Dezember · ab 11 Uhr · bei Leah"
-  EVENT_INFO: "",
+  // Der Brunch selbst. Antippen auf der Seite = Termin in den eigenen Kalender übernehmen.
+  TERMIN: {
+    TITEL: "Friendsmas Brunch bei Leah",
+    START: "2026-12-20T11:00:00+01:00",
+    ENDE: "2026-12-20T15:00:00+01:00",
+    ORT: "" // optional, z. B. "Musterstraße 1, Hamburg"
+  },
   // Wie oft die Mitbring-Liste neu geladen wird (Sekunden)
   POLL_SECONDS: 20,
   // Die Mitbring-Liste. Einträge dürfen ergänzt oder gelöscht werden.
@@ -1233,8 +1348,7 @@ const LEAH_SVG =
 const leah = (() => {
   const gross = $("leahGross"), klein = $("leahKlein");
   gross.innerHTML = LEAH_SVG;
-  klein.innerHTML = LEAH_SVG.replace('viewBox="0 0 160 190"', 'viewBox="35 33 90 90"');
-  klein.querySelector(".arm").remove();
+  klein.innerHTML = LEAH_SVG;
   const figuren = [gross, klein];
   const blasen = [$("blaseGross"), $("blaseKlein")];
   const begleiter = $("begleiter");
@@ -1273,24 +1387,70 @@ const leah = (() => {
     }
     zeige(text, stimmung);
   }
+  function winken(f) {
+    f.classList.remove("winkt"); void f.offsetWidth; f.classList.add("winkt");
+    clearTimeout(f.winkTimer);
+    f.winkTimer = setTimeout(() => f.classList.remove("winkt"), 2800);
+  }
   function begruessen() {
-    gross.classList.add("winkt");
-    setTimeout(() => gross.classList.remove("winkt"), 3000);
+    winken(gross);
     const a = eigeneAntwort();
     sagen(a && a.name
       ? "Schön, dass du wieder da bist, " + a.name + "! Bis zum " + $("fristDatum").textContent + " kannst du alles ändern."
-      : "Hi, ich bin Leah! 🎄 Ich lade dich zum Friendsmas Brunch ein. Scroll runter, ich zeig dir alles.");
+      : "Hi, ich bin Leah! 🎄 Ich lade dich am " + new Date(T.START).toLocaleDateString("de-DE", Object.assign({ day: "numeric", month: "long" }, ZONE)) +
+        " zum Friendsmas Brunch ein. Scroll runter, ich zeig dir alles.");
   }
 
-  // Kleine Leah unten links, sobald die große aus dem Bild ist
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(e => begleiter.classList.toggle("versteckt", e[0].isIntersecting), { threshold: 0 }).observe($("leahHero"));
+  // Antippen: Leah hüpft, winkt und hat immer was zu sagen
+  let tipps = 0;
+  function antippen(f) {
+    winken(f);
+    const kommt = kommtWert();
+    const a = eigeneAntwort();
+    const frei = offenePosten();
+    const passend = [];
+    if (!kommt) passend.push("Kommst du? Die Antwortkarte wartet auf dich! 💌");
+    if (kommt === "ja" && !gewaehltePosten().length && !(a && a.posten && a.posten.length) && frei.length) {
+      passend.push("Noch bringt niemand " + frei[Math.floor(Math.random() * frei.length)].name + ". Wär das was für dich? 👀");
+    }
+    const tage = tageBisBrunch();
+    const witze = [
+      tage > 1 ? "Noch " + tage + " Tage bis zum Brunch. Ich zähl mit! 📅" : "Bald ist es so weit! 🎄",
+      "Dresscode: gemütlich. Hässliche Weihnachtspullis sind ausdrücklich erwünscht! 🎄",
+      "Tipp: Tipp oben auf den Termin, dann landet der Brunch in deinem Kalender.",
+      "Hihi, das kitzelt! 😆",
+      "Siehst du den Dackel auf der Lichterkette? Der kommt auch! 🐶",
+      "Ein Brunch ohne Plätzchen? Nicht mit mir! 🍪",
+      "Psst … ich hab schon Lebkuchen gekauft. Für mich. Für den Weg. 🤭"
+    ];
+    const text = tipps < passend.length ? passend[tipps] : witze[(tipps - passend.length) % witze.length];
+    tipps++;
+    sagen(text, { stimmung: "juhu" });
   }
-  $("begleiterKnopf").addEventListener("click", () => {
-    const b = $("blaseKlein");
-    if (b.classList.contains("zu")) { zeige(letzter || "Ich bin da, wenn du mich brauchst! 🎄"); } else { b.classList.add("zu"); }
-  });
+  $("leahGrossKnopf").addEventListener("click", () => antippen(gross));
+  $("begleiterKnopf").addEventListener("click", () => antippen(klein));
   $("blaseKlein").addEventListener("click", () => $("blaseKlein").classList.add("zu"));
+
+  // Kleine Leah unten links, sobald die große aus dem Bild ist. Beim ersten Mal ein Hinweis, dass man sie antippen kann.
+  let hinweisGegeben = false;
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(e => {
+      const weg = !e[0].isIntersecting;
+      begleiter.classList.toggle("versteckt", !weg);
+      if (weg && !hinweisGegeben && !umschlagZu) {
+        hinweisGegeben = true;
+        setTimeout(() => sagen("Ich komm mit! Tipp mich an, wenn du was wissen willst. 👆", { ort: true }), 700);
+      }
+    }, { threshold: 0 }).observe($("leahHero"));
+  }
+  // Beim Scrollen läuft sie mit
+  let laufTimer;
+  window.addEventListener("scroll", () => {
+    if (reduziert || begleiter.classList.contains("versteckt")) return;
+    begleiter.classList.add("laeuft");
+    clearTimeout(laufTimer);
+    laufTimer = setTimeout(() => begleiter.classList.remove("laeuft"), 260);
+  }, { passive: true });
   // Beim Tippen auf dem Handy aus dem Weg gehen
   document.addEventListener("focusin", e => { if (e.target.matches('input[type="text"], textarea')) begleiter.classList.add("tippt"); });
   document.addEventListener("focusout", () => begleiter.classList.remove("tippt"));
@@ -1380,7 +1540,74 @@ function zeigeFrist() {
   $("kugel").setAttribute("aria-label", "Antwort bis " + kurz + " (" + text + ")");
   document.querySelectorAll("[data-budget]").forEach(e => e.textContent = CONFIG.BUDGET);
   document.querySelectorAll("[data-auslosung]").forEach(e => e.textContent = CONFIG.AUSLOSUNG);
-  if (CONFIG.EVENT_INFO) { $("eventInfo").textContent = CONFIG.EVENT_INFO; $("eventInfo").hidden = false; }
+}
+
+/* ---------- Termin in den Kalender ---------- */
+const T = CONFIG.TERMIN;
+const ZONE = { timeZone: "Europe/Berlin" };
+function terminText(mitJahr) {
+  const start = new Date(T.START);
+  const tag = start.toLocaleDateString("de-DE", Object.assign({ weekday: "long", day: "numeric", month: "long" }, mitJahr ? { year: "numeric" } : {}, ZONE));
+  const uhr = start.toLocaleTimeString("de-DE", Object.assign({ hour: "numeric", minute: "2-digit" }, ZONE)).replace(":00", "");
+  return tag + " · " + uhr + " Uhr";
+}
+function tageBisBrunch() { return Math.max(0, Math.ceil((new Date(T.START).getTime() - Date.now()) / 864e5)); }
+function seitenLink() { return location.origin + location.pathname + location.search; }
+function utc(d) { return new Date(d).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, ""); }
+function beschreibung() { return "Leah lädt ein! Zusagen, wichteln und die Mitbring-Liste: " + seitenLink(); }
+function googleLink() {
+  const q = new URLSearchParams({ action: "TEMPLATE", text: T.TITEL, dates: utc(T.START) + "/" + utc(T.ENDE), details: beschreibung() });
+  if (T.ORT) q.set("location", T.ORT);
+  return "https://calendar.google.com/calendar/render?" + q.toString();
+}
+function icsText() {
+  const esc = s => String(s).replace(/\\/g, "\\\\").replace(/\r?\n/g, "\\n").replace(/[,;]/g, m => "\\" + m);
+  const falten = z => { const zeichen = Array.from(z), teile = []; for (let i = 0; i < zeichen.length; i += 60) teile.push(zeichen.slice(i, i + 60).join("")); return teile.join("\r\n "); };
+  return [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Friendsmas Brunch//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    "UID:friendsmas-brunch-" + utc(T.START) + "@leah",
+    "DTSTAMP:" + utc(Date.now()),
+    "DTSTART:" + utc(T.START),
+    "DTEND:" + utc(T.ENDE),
+    "SUMMARY:" + esc(T.TITEL),
+    "DESCRIPTION:" + esc(beschreibung()),
+    T.ORT ? "LOCATION:" + esc(T.ORT) : "",
+    "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", "DESCRIPTION:" + esc("Morgen ist Friendsmas Brunch! 🎄"), "END:VALARM",
+    "END:VEVENT", "END:VCALENDAR"
+  ].filter(Boolean).map(falten).join("\r\n") + "\r\n";
+}
+function icsLaden() {
+  const ics = icsText();
+  const apple = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (apple) { location.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics); return; }
+  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "friendsmas-brunch.ics";
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+function zeigeTermin() {
+  const start = new Date(T.START);
+  $("terminTag").textContent = start.toLocaleDateString("de-DE", Object.assign({ day: "numeric" }, ZONE)).replace(".", "");
+  $("terminMonat").textContent = start.toLocaleDateString("de-DE", Object.assign({ month: "short" }, ZONE)).replace(".", "");
+  $("terminWann").textContent = terminText(false);
+  if (T.ORT) { $("terminOrt").textContent = T.ORT; $("terminOrt").hidden = false; }
+  $("kalWann").textContent = terminText(true) + (T.ORT ? " · " + T.ORT : "");
+  $("kalenderKnopfText").textContent = start.toLocaleDateString("de-DE", Object.assign({ day: "numeric", month: "long" }, ZONE)) + " in meinen Kalender eintragen";
+  $("termin").setAttribute("aria-label", "Termin: " + terminText(true) + ". In meinen Kalender eintragen");
+  $("kalGoogle").href = googleLink();
+  const dialog = $("kalDialog");
+  document.querySelectorAll("[data-kalender]").forEach(k => k.addEventListener("click", () => {
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else window.open(googleLink(), "_blank", "noopener");
+  }));
+  $("kalIcs").addEventListener("click", () => { icsLaden(); dialog.close(); leah.sagen("Super, dann steht der Brunch jetzt in deinem Kalender! 📅", { stimmung: "juhu" }); });
+  $("kalGoogle").addEventListener("click", () => { dialog.close(); leah.sagen("Super, dann steht der Brunch jetzt in deinem Kalender! 📅", { stimmung: "juhu" }); });
+  dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); }); // Klick neben die Karte schließt
 }
 
 function zeigeZaehler() {
@@ -1575,6 +1802,7 @@ function aktualisiereSichtbarkeit(animiert) {
   const vorher = box.hidden;
   box.hidden = kommt !== "ja";
   if (animiert && vorher && !box.hidden) { box.classList.remove("auftauchen"); void box.offsetWidth; box.classList.add("auftauchen"); }
+  $("kalenderKnopf").hidden = kommt !== "ja";
   const wichtelt = form.querySelector('input[name="wichtelt"]:checked')?.value;
   $("tippFeld").hidden = wichtelt !== "ja";
 }
@@ -1660,8 +1888,8 @@ async function abschicken(e) {
       konfetti(knopf);
       const mit = daten.posten.length ? " Ich hab " + daten.posten.map(p => p.name).join(", ") + " für dich durchgestrichen." : "";
       leah.sagen(daten.wichtelt === "ja"
-        ? "Abgeschickt! 🎉" + mit + " Am " + CONFIG.AUSLOSUNG + " sag ich dir, wen du beschenkst."
-        : (neu ? "Abgeschickt! 🎉" + mit + " Ich freu mich auf dich!" : "Hab’s geändert! 👍" + mit), { stimmung: "juhu" });
+        ? "Abgeschickt! 🎉" + mit + " Am " + CONFIG.AUSLOSUNG + " sag ich dir, wen du beschenkst. Trag dir den Brunch gleich in den Kalender ein! 📅"
+        : (neu ? "Abgeschickt! 🎉" + mit + " Ich freu mich auf dich! Trag dir den Brunch gleich in den Kalender ein! 📅" : "Hab’s geändert! 👍" + mit), { stimmung: "juhu" });
       if (daten.posten.length || daten.extra) {
         setTimeout(() => $("buffet").scrollIntoView({ behavior: sanft(), block: "start" }), 1200);
       }
@@ -1702,7 +1930,7 @@ function leahOrte() {
   if (!("IntersectionObserver" in window)) return;
   const orte = new Map([
     [$("teilName"), () => "Erst mal: Wie heißt du? Der Vorname reicht völlig."],
-    [$("teilKommt"), () => "Und jetzt die wichtigste Frage des Jahres … 🥁 Antworte bitte bis " + $("fristLang").textContent + "."],
+    [$("teilKommt"), () => "Und jetzt die wichtigste Frage des Jahres … 🥁 " + terminText(false) + ", bist du dabei? Antworte bitte bis " + $("fristLang").textContent + "."],
     [$("teilWichteln"), () => "Wichteln! Höchstens " + CONFIG.BUDGET + ". Am " + CONFIG.AUSLOSUNG + " sag ich dir, wen du beschenkst."],
     [$("teilBuffet"), () => {
       const frei = offenePosten();
@@ -1768,30 +1996,73 @@ function schnee() {
   groesse(); bild();
 }
 
+const DACKEL_SVG =
+  '<path class="d-schwanz" d="M-24 -16 C -29 -18, -32 -22, -33 -28" stroke="#7a3f1c" stroke-width="3.4" fill="none" stroke-linecap="round"/>' +
+  '<rect class="d-bein b1" x="-20" y="-10" width="4.2" height="10" rx="2.1" fill="#5e2e14"/>' +
+  '<rect class="d-bein b2" x="11" y="-10" width="4.2" height="10" rx="2.1" fill="#5e2e14"/>' +
+  '<g class="d-rumpf">' +
+    '<rect x="-26" y="-22" width="46" height="14.5" rx="7.25" fill="#8f4a22"/>' +
+    '<path d="M-19 -9.6 Q -2 -6.8, 15 -9.6" stroke="#b9733f" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".75"/>' +
+    '<path d="M13 -22 L 19 -22 L 19 -9 L 13 -10 Z" fill="#2c6e55"/>' +
+    '<path d="M15 -10 L 18 -4 L 20 -10 Z" fill="#245a46"/>' +
+    '<ellipse cx="24" cy="-23" rx="8.5" ry="7.2" fill="#8f4a22"/>' +
+    '<path d="M26 -27 C 33 -27, 39 -24, 39.5 -20.5 C 40 -17, 34 -15.8, 27 -17 Z" fill="#8f4a22"/>' +
+    '<circle cx="39" cy="-21" r="2.3" fill="#1d120c"/>' +
+    '<circle cx="27" cy="-25.6" r="1.5" fill="#1d120c"/><circle cx="27.5" cy="-26.1" r=".5" fill="#fff"/>' +
+    '<path d="M19.5 -27.5 C 14.5 -26.5, 13.5 -19, 16.5 -13.5 C 20 -14.5, 22.5 -20, 22.5 -25.5 Z" fill="#5e2e14"/>' +
+    '<path d="M17.5 -28.5 L 31 -29.5 C 29.5 -36.5, 22 -41, 11.5 -38.5 C 14.5 -35.5, 16.5 -32, 17.5 -28.5 Z" fill="#b8263d"/>' +
+    '<rect x="15.5" y="-31.5" width="17.5" height="4.6" rx="2.3" fill="#fbf6ec" transform="rotate(-4 24 -29)"/>' +
+    '<circle cx="11" cy="-38.5" r="3.1" fill="#fbf6ec"/>' +
+  '</g>' +
+  '<rect class="d-bein b3" x="-15" y="-10" width="4.2" height="10" rx="2.1" fill="#8f4a22"/>' +
+  '<rect class="d-bein b4" x="6" y="-10" width="4.2" height="10" rx="2.1" fill="#8f4a22"/>';
+
 let ketten = 0;
 function lichterkette(box) {
   const ns = "http://www.w3.org/2000/svg";
   const farben = ["#f6d68a", "#e8475d", "#7fd3a6", "#fff1c9", "#f0a85a"];
   const id = "schein" + (++ketten);
+  const flach = box.dataset.lichter === "flach";   // weniger Durchhang, damit der Dackel gut laufen kann
+  const mitDackel = box.hasAttribute("data-dackel");
+  const tief = flach ? 15 : 26;                  // Kontrollpunkt der Bögen
+  const birneY = (3 + 2 * tief + 3) / 4;           // tiefster Punkt eines Bogens
   let breiteVorher = 0;
   function bauen() {
     const w = Math.round(box.clientWidth);
     if (!w || w === breiteVorher) return;
     breiteVorher = w;
-    const n = Math.max(4, Math.round(w / (w < 600 ? 54 : 70)));
+    const n = Math.max(4, Math.round(w / (flach ? (w < 600 ? 80 : 96) : (w < 600 ? 54 : 70))));
     const schritt = w / n;
     const svg = document.createElementNS(ns, "svg");
     svg.setAttribute("width", w);
     svg.setAttribute("height", 44);
     svg.setAttribute("viewBox", "0 0 " + w + " 44");
     let d = "M0 3";
-    for (let i = 0; i < n; i++) d += " Q " + (i * schritt + schritt / 2).toFixed(1) + " 26 " + ((i + 1) * schritt).toFixed(1) + " 3";
+    for (let i = 0; i < n; i++) d += " Q " + (i * schritt + schritt / 2).toFixed(1) + " " + tief + " " + ((i + 1) * schritt).toFixed(1) + " 3";
     svg.innerHTML = '<defs><filter id="' + id + '" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3.2"/></filter></defs><path class="draht" d="' + d + '"/>';
+    let weg = null;
+    if (mitDackel) {
+      // Der Dackel läuft auf dem Draht von links nach rechts (ca. 38 Pixel pro Sekunde) und kommt dann links wieder rein
+      weg = document.createElementNS(ns, "g");
+      weg.setAttribute("class", "dackel-weg");
+      const dauer = (w / 38).toFixed(1) + "s";
+      weg.innerHTML = '<g class="dackel">' + DACKEL_SVG + '</g>' + (reduziert
+        ? ""
+        : '<animateMotion dur="' + dauer + '" repeatCount="indefinite" rotate="auto" path="' + d + '"/>' +
+          '<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.03;.97;1" dur="' + dauer + '" repeatCount="indefinite"/>');
+      if (reduziert) weg.setAttribute("transform", "translate(" + (schritt * 2).toFixed(1) + " 3)");
+      weg.addEventListener("click", () => {
+        const hund = weg.querySelector(".dackel");
+        hund.classList.remove("hops"); void hund.getBoundingClientRect(); hund.classList.add("hops");
+        leah.sagen("Wuff! 🐶 Der Dackel freut sich auch schon aufs Buffet.", { stimmung: "juhu" });
+      });
+      weg.addEventListener("animationend", e => { if (e.animationName === "dackelhops") e.target.classList.remove("hops"); });
+    }
     for (let i = 0; i < n; i++) {
       const farbe = farben[i % farben.length];
       const g = document.createElementNS(ns, "g");
       g.setAttribute("class", "birne");
-      g.setAttribute("transform", "translate(" + (i * schritt + schritt / 2).toFixed(1) + " 14.5) rotate(" + (i % 2 ? 9 : -9) + ")");
+      g.setAttribute("transform", "translate(" + (i * schritt + schritt / 2).toFixed(1) + " " + birneY + ") rotate(" + (i % 2 ? 9 : -9) + ")");
       g.style.setProperty("--v", (-Math.random() * 4).toFixed(2) + "s");
       g.style.setProperty("--t", (2.4 + Math.random() * 2.6).toFixed(2) + "s");
       g.innerHTML =
@@ -1801,6 +2072,7 @@ function lichterkette(box) {
         '<ellipse cx="-1.3" cy="7.6" rx="1.1" ry="2" fill="#fff" opacity=".6"/>';
       svg.append(g);
     }
+    if (weg) svg.append(weg);
     box.replaceChildren(svg);
   }
   bauen();
@@ -1836,6 +2108,7 @@ async function aktualisieren() {
 
 function start() {
   zeigeFrist();
+  zeigeTermin();
   baueListen();
   fuelleAus(eigeneAntwort());
   aktualisiereListen();
