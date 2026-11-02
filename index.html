@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b1d18">
+<title>Friendsmas Brunch – Leah lädt ein</title>
+<meta name="description" content="Leah lädt dich zum Friendsmas Brunch ein! Zusagen, mitwichteln und eintragen, was du zum Buffet mitbringst.">
+<meta property="og:title" content="Friendsmas Brunch – Leah lädt ein">
+<meta property="og:description" content="Zusagen, mitwichteln und eintragen, was du zum Buffet mitbringst.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23123128'/><path d='M50 16 L58 42 L84 50 L58 58 L50 84 L42 58 L16 50 L42 42 Z' fill='%23e8d3a0'/></svg>">
+<script>
+/* Umschlag nur beim ersten Besuch zeigen (vor dem ersten Bild entscheiden, damit nichts flackert). */
+try { if (!localStorage.getItem("friendsmas-umschlag") && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("mit-umschlag"); } catch (e) {}
+</script>
+<style>
+/* Schriften liegen lokal im Ordner fonts/ (kein Google-Fonts-Abruf, DSGVO-freundlich). */
+@font-face { font-family: "Fraunces"; src: url("fonts/fraunces-latin-full-normal.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Fraunces"; src: url("fonts/fraunces-latin-full-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("fonts/figtree-latin-wght-normal.woff2") format("woff2"); font-weight: 300 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Caveat"; src: url("fonts/caveat-latin-wght-normal.woff2") format("woff2"); font-weight: 400 700; font-style: normal; font-display: swap; }
+
+:root {
+  --nacht: #0b1d18;
+  --tanne: #123128;
+  --tanne-2: #1b4436;
+  --gold: #c9a55c;
+  --gold-hell: #e8d3a0;
+  --gold-dunkel: #8f6f30;
+  --beere: #a31f34;
+  --beere-dunkel: #7c1526;
+  --creme: #f8f2e6;
+  --papier: #fffaf0;
+  --tinte: #1d2b25;
+  --grau: #5a6862;
+  --rand: #ddd0b6;
+  --linie: rgba(143, 111, 48, .32);
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --text: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+  --weich: "SOFT" 100, "WONK" 1;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+html.mit-umschlag { overflow: hidden; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--nacht);
+  color: var(--creme);
+  font-family: var(--text);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { /* Kerzenschein-Hintergrund, fest stehend */
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(110% 55% at 50% -8%, rgba(232, 211, 160, .17), transparent 62%),
+    radial-gradient(70% 45% at 108% 32%, rgba(163, 31, 52, .17), transparent 70%),
+    radial-gradient(60% 40% at -12% 72%, rgba(44, 110, 85, .3), transparent 70%),
+    linear-gradient(180deg, #143529 0%, var(--nacht) 72%);
+}
+
+#schnee { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.seite { overflow-x: hidden; overflow-x: clip; }
+.ebene { position: relative; z-index: 1; }
+
+/* ---------- Lichterkette ---------- */
+.lichter { position: absolute; left: 0; right: 0; top: 0; height: 44px; pointer-events: none; }
+.lichter svg { display: block; overflow: visible; }
+.lichter .draht { fill: none; stroke: #07130f; stroke-width: 1.6; }
+.birne { animation: funkeln var(--t, 3s) ease-in-out var(--v, 0s) infinite; }
+.birne .schein { opacity: .55; animation: glimmen var(--t, 3s) ease-in-out var(--v, 0s) infinite; }
+@keyframes funkeln { 0%, 100% { opacity: 1; } 50% { opacity: .6; } }
+@keyframes glimmen { 0%, 100% { opacity: .6; } 50% { opacity: .1; } }
+
+/* ---------- Kugeln ---------- */
+@keyframes pendeln { 0%, 100% { transform: rotate(3deg); } 50% { transform: rotate(-3deg); } }
+.mini-kugel {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  z-index: 2;
+  width: var(--gr);
+  transform-origin: 50% 0;
+  animation: pendeln var(--dauer, 5s) ease-in-out infinite;
+  pointer-events: none;
+}
+.mini-kugel::before { content: ""; display: block; width: 1px; height: var(--faden); margin: 0 auto; background: rgba(201, 165, 92, .75); }
+.mini-kugel::after {
+  content: "";
+  display: block;
+  width: var(--gr);
+  height: var(--gr);
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--hell), var(--farbe) 45%, var(--dunkel));
+  box-shadow: inset -3px -4px 8px rgba(0, 0, 0, .3), 0 8px 16px -6px rgba(0, 0, 0, .6);
+}
+.mini-kugel.gold  { --hell: #fff2c4; --farbe: #c9a55c; --dunkel: #5e4618; }
+.mini-kugel.gruen { --hell: #9fdcbd; --farbe: #2c6e55; --dunkel: #0d2a20; }
+.mini-kugel.beere { --hell: #f28a99; --farbe: #a31f34; --dunkel: #4e0d18; }
+.mini-kugel.breit { display: none; }
+@media (min-width: 760px) { .mini-kugel.breit { display: block; } }
+
+.kugel {
+  position: absolute;
+  top: 0;
+  right: .6rem;
+  z-index: 3;
+  padding: 0;
+  font: inherit;
+  color: var(--creme);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transform-origin: 50% 0;
+  animation: pendeln 5s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+.kugel.wackeln { animation: wackeln 1.5s cubic-bezier(.3, .6, .4, 1); }
+@keyframes wackeln {
+  0% { transform: rotate(0); } 15% { transform: rotate(16deg); } 35% { transform: rotate(-12deg); }
+  55% { transform: rotate(7deg); } 75% { transform: rotate(-3deg); } 100% { transform: rotate(0); }
+}
+.kugel:focus-visible { outline: none; }
+.kugel:focus-visible .kugel-koerper { outline: 3px solid var(--gold-hell); outline-offset: 4px; }
+.kugel-faden { display: block; width: 1px; height: 1.6rem; margin: 0 auto; background: linear-gradient(var(--gold-dunkel), var(--gold)); }
+.kugel-kappe {
+  position: relative;
+  display: block;
+  width: 1.25rem;
+  height: .75rem;
+  margin: 0 auto -3px;
+  border-radius: 3px 3px 2px 2px;
+  background: linear-gradient(90deg, #7a5c24, #f3e2b5 45%, #8f6f30);
+}
+.kugel-kappe::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+.kugel-koerper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 1.05;
+  background: radial-gradient(circle at 32% 26%, #ef7d8d 0, #bd2a42 26%, #7c1526 66%, #430a14 100%);
+  box-shadow: inset -6px -9px 18px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(232, 211, 160, .25), 0 16px 30px -10px rgba(0, 0, 0, .7);
+}
+.kugel-koerper::after { /* Glanzlicht */
+  content: "";
+  position: absolute;
+  top: 13%;
+  left: 20%;
+  width: 24%;
+  height: 13%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .38);
+  filter: blur(1.5px);
+  transform: rotate(-32deg);
+}
+.kugel-oben { margin-top: .2rem; font-size: .52rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+.kugel-datum { font-family: var(--display); font-weight: 600; font-size: 1.4rem; line-height: 1.1; margin: .1rem 0 .05rem; }
+.kugel-rest { font-size: .64rem; font-weight: 700; color: var(--gold-hell); }
+@media (min-width: 560px) {
+  .kugel { right: 0; }
+  .kugel-faden { height: 2rem; }
+  .kugel-koerper { width: 6rem; height: 6rem; }
+  .kugel-oben { font-size: .6rem; }
+  .kugel-datum { font-size: 1.6rem; }
+  .kugel-rest { font-size: .7rem; }
+}
+
+/* ---------- Kopf ---------- */
+.kopf { position: relative; }
+.hero {
+  position: relative;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 8.7rem 1.25rem 2.25rem;
+  text-align: center;
+}
+@media (min-width: 560px) { .hero { padding-top: 10rem; } }
+.hero-gruss {
+  margin: 0 0 1rem;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--gold-hell);
+}
+h1 { margin: 0; font-family: var(--display); font-weight: 400; line-height: .92; color: var(--creme); }
+h1:focus { outline: none; }
+h1 .zeile-1 {
+  position: relative;
+  display: inline-block;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(3.1rem, 16vw, 6.4rem);
+  font-variation-settings: var(--weich), "opsz" 144;
+  letter-spacing: -.02em;
+  padding: 0 .08em .06em;
+  text-shadow: 0 0 46px rgba(232, 211, 160, .3);
+}
+h1 .zeile-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .9em;
+  margin-top: .7em;
+  font-size: clamp(1rem, 4.6vw, 1.45rem);
+  font-weight: 600;
+  font-variation-settings: "opsz" 24;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+h1 .zeile-2 > span { margin-right: -.5em; } /* gleicht den Buchstabenabstand nach dem letzten Zeichen aus */
+h1 .zeile-2::before, h1 .zeile-2::after { content: ""; width: 2.4em; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+h1 .zeile-2::after { transform: scaleX(-1); }
+
+.funke {
+  position: absolute;
+  font-family: var(--text);
+  font-style: normal;
+  font-size: .22em;
+  line-height: 1;
+  color: var(--gold-hell);
+  text-shadow: 0 0 10px rgba(232, 211, 160, .8);
+  animation: sternchen 3.2s ease-in-out infinite;
+}
+.funke.f1 { left: -.15em; top: .02em; }
+.funke.f2 { right: -.05em; top: -.12em; font-size: .16em; animation-delay: -1.1s; }
+.funke.f3 { right: .55em; bottom: -.12em; font-size: .13em; animation-delay: -2.2s; }
+@keyframes sternchen { 0%, 100% { opacity: .2; transform: scale(.6) rotate(0); } 50% { opacity: 1; transform: scale(1.1) rotate(45deg); } }
+
+.event-info {
+  display: inline-block;
+  margin: 1.75rem 0 0;
+  padding: .5rem 1.15rem;
+  font-weight: 600;
+  color: var(--creme);
+  background: rgba(11, 29, 24, .4);
+  border: 1px solid rgba(201, 165, 92, .5);
+  border-radius: 999px;
+}
+.stand { margin: 1.4rem auto 0; max-width: 26rem; color: rgba(248, 242, 230, .8); text-wrap: balance; }
+.event-info:not([hidden]) + .stand { margin-top: .9rem; }
+.stand b { color: var(--gold-hell); font-weight: 700; }
+.hero-gruss, .zu p { text-wrap: balance; }
+
+/* ---------- Weihnachts-Leah ---------- */
+.leah-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.leah-svg .mund-offen, .leah-svg .mund-traurig { opacity: 0; }
+.leah-svg .augen { transform-box: fill-box; transform-origin: center; animation: blinzeln 5s infinite; }
+@keyframes blinzeln { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+.leah-svg .arm { transform-box: view-box; transform-origin: 117px 157px; }
+.leah.winkt .arm { animation: winken .9s ease-in-out 3; }
+@keyframes winken { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(15deg); } }
+.leah.spricht .mund-froh { opacity: 0; }
+.leah.spricht .mund-offen { opacity: 1; transform-box: fill-box; transform-origin: 50% 0; animation: reden .3s ease-in-out infinite; }
+@keyframes reden { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.45); } }
+.leah.traurig .mund-froh, .leah.traurig .mund-offen { opacity: 0; animation: none; }
+.leah.traurig .mund-traurig { opacity: 1; }
+.leah.juhu .leah-svg { animation: huepfen .45s ease-out 2; }
+@keyframes huepfen { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-9%); } }
+
+.leah-hero { display: flex; align-items: flex-end; justify-content: center; gap: .65rem; max-width: 30rem; margin: 2.1rem auto 0; text-align: left; }
+.leah-gross { flex: 0 0 auto; width: 8.4rem; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .35)); }
+.leah-hero .sprechblase { flex: 1 1 auto; margin-bottom: 4.6rem; }
+@media (min-width: 560px) { .leah-gross { width: 10rem; } .leah-hero .sprechblase { margin-bottom: 5.6rem; } }
+
+.sprechblase {
+  position: relative;
+  padding: .7rem 1rem .85rem;
+  font-size: .98rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--tinte);
+  background: var(--papier);
+  border-radius: 18px;
+  box-shadow: 0 0 0 1px rgba(201, 165, 92, .65), 0 16px 30px -14px rgba(0, 0, 0, .75);
+}
+.sprechblase::before { /* Zipfel in Richtung Leah */
+  content: "";
+  position: absolute;
+  left: -7px;
+  bottom: 18px;
+  width: 14px;
+  height: 14px;
+  background: var(--papier);
+  border-left: 1px solid rgba(201, 165, 92, .65);
+  border-bottom: 1px solid rgba(201, 165, 92, .65);
+  border-radius: 0 0 0 3px;
+  transform: rotate(45deg);
+}
+.sprechblase p { margin: 0; }
+.sprechblase .wer { display: block; font-family: var(--hand); font-weight: 700; font-size: 1.3rem; line-height: 1.1; color: var(--beere); }
+.sprechblase.neu { animation: blase .4s cubic-bezier(.3, 1.5, .5, 1); }
+@keyframes blase { from { opacity: .3; transform: scale(.92); } to { opacity: 1; transform: none; } }
+
+.begleiter {
+  position: fixed;
+  left: .75rem;
+  bottom: .75rem;
+  z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  gap: .6rem;
+  pointer-events: none;
+  transition: opacity .3s, transform .4s cubic-bezier(.3, 1.4, .5, 1);
+}
+.begleiter.versteckt { opacity: 0; transform: translateY(140%); }
+@media (max-width: 899px) { .begleiter.tippt { opacity: 0; transform: translateY(140%); } }
+.begleiter-knopf {
+  flex: 0 0 auto;
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, #2a6450, var(--tanne));
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 12px 26px -8px rgba(0, 0, 0, .85);
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+.begleiter.versteckt .begleiter-knopf { pointer-events: none; }
+.begleiter-knopf:focus-visible { outline: 3px solid var(--gold-hell); outline-offset: 3px; }
+.begleiter-knopf .leah-svg { width: 100%; height: 100%; }
+.begleiter .sprechblase {
+  max-width: min(19rem, calc(100vw - 6.4rem));
+  margin-bottom: .45rem;
+  pointer-events: auto;
+  cursor: pointer;
+  transform-origin: 0 100%;
+  transition: opacity .25s, transform .3s cubic-bezier(.3, 1.4, .5, 1);
+}
+.begleiter .sprechblase.zu, .begleiter.versteckt .sprechblase { opacity: 0; transform: scale(.85); pointer-events: none; }
+.begleiter .sprechblase::before { bottom: 16px; }
+
+/* ---------- Antwortkarte ---------- */
+.haupt { max-width: 38rem; margin: 0 auto; padding: 1.5rem 1rem 4.5rem; }
+.zettel {
+  position: relative;
+  padding: 2.4rem 1.35rem 1.75rem;
+  color: var(--tinte);
+  background: linear-gradient(180deg, var(--papier), var(--creme));
+  border-radius: 22px;
+  box-shadow: 0 0 0 1px rgba(201, 165, 92, .6), 0 44px 80px -30px rgba(0, 0, 0, .8), 0 18px 30px -18px rgba(0, 0, 0, .5);
+}
+.zettel::before { /* feiner Goldrahmen innen */
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--linie);
+  border-radius: 16px;
+  pointer-events: none;
+}
+@media (min-width: 560px) { .zettel { padding: 2.75rem 2.4rem 2.25rem; } }
+
+.stechpalme {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  width: 112px;
+  height: 56px;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 5px 6px rgba(0, 0, 0, .3));
+}
+
+.zettel-kopf { text-align: center; margin: 0 0 1.6rem; }
+.marke { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-dunkel); }
+.marke-titel {
+  display: block;
+  margin-top: .15rem;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.15;
+  font-variation-settings: var(--weich);
+  color: var(--tanne);
+}
+
+.schon-da {
+  margin: 0 0 1.5rem;
+  padding: .8rem 1rem;
+  font-size: .96rem;
+  background: #fbf0d4;
+  border: 1px solid rgba(201, 165, 92, .7);
+  border-radius: 12px;
+}
+
+.teil { border: 0; margin: 0; padding: 0 0 1.6rem; min-width: 0; }
+.teil + .teil, #nurZusage > .teil:first-child { border-top: 1px solid var(--linie); padding-top: 1.5rem; }
+legend {
+  float: left;   /* macht die Legende zu normalem Inhalt (sauberer Abstand, keine Rahmen-Lücke) */
+  width: 100%;
+  padding: 0;
+  margin-bottom: .7rem;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-variation-settings: "SOFT" 50, "opsz" 48;
+  color: var(--tanne);
+}
+legend + * { clear: both; }
+
+.feld { display: block; margin: .9rem 0 0; }
+.feld > span { display: block; margin-bottom: .35rem; font-size: .98rem; font-weight: 600; }
+.feld i { font-style: normal; font-weight: 400; color: var(--grau); }
+.feld small { display: block; margin-top: .35rem; font-size: .88rem; color: var(--grau); }
+#teilName .feld { margin-top: 0; }
+input[type="text"], textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-size: 1.0625rem;
+  color: var(--tinte);
+  background: #fff;
+  border: 1.5px solid var(--rand);
+  border-radius: 12px;
+  padding: .75rem .9rem;
+  transition: border-color .15s, box-shadow .15s;
+}
+textarea { resize: vertical; min-height: 3.2rem; }
+input::placeholder, textarea::placeholder { color: #8f9893; }
+input:hover, textarea:hover { border-color: #cdb98d; }
+input:focus, textarea:focus { outline: none; border-color: var(--gold-dunkel); box-shadow: 0 0 0 4px rgba(201, 165, 92, .28); }
+.feld.falsch input, .feld.falsch textarea { border-color: var(--beere); background: #fff6f6; }
+
+/* Antwortfrist als Kalenderblatt */
+.frist-karte {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.1rem;
+  padding: .9rem 1rem;
+  background: linear-gradient(135deg, #fbf1dc, #f3e4c4);
+  border: 1px solid rgba(201, 165, 92, .75);
+  border-radius: 16px;
+}
+.kalender {
+  flex: 0 0 auto;
+  width: 4.4rem;
+  overflow: hidden;
+  text-align: center;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 18px -10px rgba(29, 43, 37, .7), 0 0 0 1px rgba(143, 111, 48, .3);
+  transform: rotate(-3deg);
+}
+.kal-monat {
+  display: block;
+  padding: .2rem 0 .15rem;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--creme);
+  background: linear-gradient(180deg, #ba2a41, var(--beere-dunkel));
+}
+.kal-tag { display: block; padding: .05rem 0 .2rem; font-family: var(--display); font-weight: 600; font-size: 2.2rem; line-height: 1.1; color: var(--tanne); }
+.frist-oben { display: block; font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-dunkel); }
+.frist-gross { display: block; font-family: var(--display); font-weight: 600; font-size: 1.4rem; line-height: 1.2; color: var(--tanne); }
+.frist-noch { display: inline-block; margin-top: .35rem; padding: .1rem .65rem; font-size: .82rem; font-weight: 700; color: var(--creme); background: var(--tanne); border-radius: 999px; }
+.frist-noch.knapp { background: var(--beere); }
+
+/* Große Auswahl-Kacheln */
+.wahl { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.kachel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  min-height: 6.6rem;
+  padding: 1rem .6rem;
+  text-align: center;
+  font-weight: 600;
+  line-height: 1.2;
+  background: #fff;
+  border: 1.5px solid var(--rand);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform .22s cubic-bezier(.3, 1.5, .5, 1), background-color .2s, color .2s, border-color .2s, box-shadow .2s;
+}
+.kachel input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.kachel-emoji { font-size: 2rem; line-height: 1; }
+.kachel:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 12px 22px -16px rgba(29, 43, 37, .6); }
+.kachel:has(input:checked) {
+  color: var(--creme);
+  background: linear-gradient(160deg, var(--tanne-2), var(--tanne));
+  border-color: var(--gold);
+  box-shadow: 0 16px 28px -16px rgba(18, 49, 40, .95), inset 0 0 0 1px rgba(232, 211, 160, .35);
+  transform: translateY(-2px);
+}
+.kachel.ja:has(input:checked) { background: linear-gradient(160deg, #b8283f, var(--beere-dunkel)); }
+.kachel:has(input:checked) .kachel-emoji { animation: hopsen .55s cubic-bezier(.3, 1.6, .5, 1); }
+.kachel:has(input:checked)::after {
+  content: "✓";
+  position: absolute;
+  top: .5rem;
+  right: .55rem;
+  display: grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  font-size: .78rem;
+  font-weight: 800;
+  color: var(--tinte);
+  background: var(--gold-hell);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.kachel:has(input:focus-visible) { outline: 3px solid var(--gold); outline-offset: 3px; }
+.teil.falsch .kachel { border-color: var(--beere); }
+@keyframes hopsen { 0% { transform: scale(.6) rotate(-12deg); } 60% { transform: scale(1.2) rotate(6deg); } 100% { transform: none; } }
+
+.regeln {
+  margin: 0 0 1rem;
+  padding: 1rem 1.1rem;
+  font-size: .98rem;
+  background: #f5ecd9;
+  border: 1px dashed rgba(143, 111, 48, .6);
+  border-radius: 14px;
+}
+.regeln p { margin: 0; }
+.regeln p + p { margin-top: .55rem; }
+.budget { font-family: var(--display); font-style: italic; font-weight: 600; font-size: 1.3rem; font-variation-settings: var(--weich); color: var(--beere-dunkel); }
+
+.hinweis-klein { margin: 0 0 .25rem; }
+
+/* Mitbring-Liste zum Abhaken */
+.liste { display: grid; gap: 1.25rem; margin: 1rem 0 .25rem; }
+@media (min-width: 560px) { .liste { grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; } }
+.gruppe-titel {
+  display: flex;
+  align-items: baseline;
+  gap: .45rem;
+  margin: 0 0 .3rem;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--tanne);
+}
+.gruppe-titel .offen { margin-left: auto; font-family: var(--text); font-size: .78rem; font-weight: 700; color: var(--gold-dunkel); }
+.posten-liste { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--linie); }
+.posten { border-bottom: 1px solid var(--linie); }
+.posten label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  min-height: 2.9rem;
+  padding: .4rem .35rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color .15s;
+}
+.posten label:hover { background: rgba(201, 165, 92, .12); }
+.posten input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
+.haken {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 1.45rem;
+  height: 1.45rem;
+  background: #fff;
+  border: 1.5px solid #cdb98d;
+  border-radius: 6px;
+  transition: background-color .15s, border-color .15s, transform .25s cubic-bezier(.3, 1.6, .5, 1);
+}
+.haken::after { content: "✓"; font-size: .9rem; font-weight: 800; line-height: 1; color: var(--creme); opacity: 0; transform: scale(.3); transition: opacity .15s, transform .25s cubic-bezier(.3, 1.6, .5, 1); }
+.posten input:checked + .haken { background: var(--tanne); border-color: var(--tanne); transform: rotate(-5deg); }
+.posten input:checked + .haken::after { opacity: 1; transform: none; }
+.posten input:focus-visible + .haken { outline: 3px solid var(--gold); outline-offset: 2px; }
+.posten-name { position: relative; font-weight: 600; line-height: 1.25; }
+.posten-wer, .eintrag-wer { margin-left: auto; font-family: var(--hand); font-weight: 700; font-size: 1.35rem; line-height: 1; color: var(--beere); white-space: nowrap; }
+.posten.meins .posten-wer, .eintrag.meins .eintrag-wer { color: var(--gold-dunkel); }
+.posten.vergeben label { cursor: not-allowed; }
+.posten.vergeben label:hover { background: none; }
+.posten.vergeben .haken { background: #f1e7d3; border-color: #e3d6bb; }
+.posten.vergeben .posten-name, .eintrag.vergeben .eintrag-name { color: #7f8985; }
+.streich::after { /* der Stift-Strich, wenn etwas vergeben ist */
+  content: "";
+  position: absolute;
+  left: -.2rem;
+  right: -.2rem;
+  top: 54%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--beere);
+  transform: rotate(-2.5deg) scaleX(0);
+  transform-origin: left center;
+}
+.vergeben .streich::after { animation: streichen .55s cubic-bezier(.6, 0, .3, 1) .1s forwards; }
+@keyframes streichen { to { transform: rotate(-2.5deg) scaleX(1); } }
+
+.doppelt { margin: .5rem 0 0; font-size: .95rem; font-weight: 600; color: var(--beere-dunkel); }
+
+.fehler {
+  margin: 0 0 1rem;
+  padding: .75rem 1rem;
+  font-weight: 600;
+  color: var(--beere-dunkel);
+  background: #fff0f2;
+  border: 1px solid var(--beere);
+  border-radius: 12px;
+}
+
+.abschicken {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-top: .6rem;
+  padding: 1rem 1.25rem;
+  overflow: hidden;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.35rem;
+  font-variation-settings: "SOFT" 100;
+  line-height: 1.1;
+  color: var(--creme);
+  background: linear-gradient(180deg, #ba2a41, var(--beere-dunkel));
+  border: 1px solid rgba(232, 211, 160, .6);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 16px 28px -14px rgba(124, 21, 38, .9);
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s, filter .15s;
+}
+.abschicken::after { /* Glanz, der ab und zu drüberläuft */
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .28), transparent);
+  transform: skewX(-20deg);
+  animation: glanz 5s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+@keyframes glanz { 0%, 70% { left: -60%; } 100% { left: 130%; } }
+.abschicken:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 20px 32px -14px rgba(124, 21, 38, .95); }
+.abschicken:active { transform: translateY(1px); }
+.abschicken:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.abschicken[disabled] { cursor: progress; opacity: .8; transform: none; }
+
+.zu { text-align: center; }
+.zu h2 { margin: 0 0 .5rem; font-family: var(--display); font-weight: 600; font-size: 1.6rem; color: var(--tanne); }
+.zu p { margin: 0; }
+
+.auftauchen { animation: auftauchen .4s ease-out both; }
+@keyframes auftauchen { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Die Mitbring-Liste (für alle sichtbar) ---------- */
+.tisch {
+  padding: 5rem 1rem 4.5rem;
+  color: var(--creme);
+  background:
+    radial-gradient(90% 60% at 50% 0%, rgba(232, 211, 160, .1), transparent 70%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, .022) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, .09) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg, #173a2f 0%, #0f2620 100%);
+  border-top: 1px solid rgba(201, 165, 92, .45);
+}
+.tisch-innen { max-width: 56rem; margin: 0 auto; }
+.tisch-kopf { text-align: center; margin-bottom: 2.25rem; }
+.tisch-marke { margin: 0; font-size: .75rem; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+.tafel {
+  margin: .35rem 0 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.5rem, 10vw, 4.2rem);
+  line-height: 1;
+  font-variation-settings: var(--weich), "opsz" 144;
+  color: var(--creme);
+  text-shadow: 0 0 40px rgba(232, 211, 160, .22);
+}
+.tisch-unter {
+  display: inline-block;
+  margin: 1.1rem 0 0;
+  padding: .45rem 1.05rem;
+  font-size: .95rem;
+  font-weight: 600;
+  background: rgba(11, 29, 24, .5);
+  border: 1px solid rgba(201, 165, 92, .38);
+  border-radius: 18px;
+}
+@media (max-width: 520px) { .stand-zeit { display: block; font-size: .85rem; } }
+.live-punkt {
+  display: inline-block;
+  width: .55rem;
+  height: .55rem;
+  margin-right: .5rem;
+  border-radius: 50%;
+  background: #6fd39b;
+  vertical-align: .05em;
+  animation: pulsieren 2s ease-out infinite;
+}
+.live-punkt.aus { background: #8d9a94; animation: none; }
+@keyframes pulsieren { 0% { box-shadow: 0 0 0 0 rgba(111, 211, 155, .55); } 80%, 100% { box-shadow: 0 0 0 .5rem rgba(111, 211, 155, 0); } }
+.stand-zeit { font-weight: 400; color: rgba(248, 242, 230, .65); }
+
+.blatt { /* der Einkaufszettel auf dem Tisch */
+  position: relative;
+  padding: 2.2rem 1.25rem 1.6rem;
+  color: var(--tinte);
+  background: linear-gradient(180deg, var(--papier), #f5ecda);
+  border-radius: 6px;
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, .85), 0 0 0 1px rgba(201, 165, 92, .5);
+  transform: rotate(-.6deg);
+}
+@media (min-width: 700px) { .blatt { padding: 2.6rem 2.6rem 2rem; } }
+.blatt::before { /* Klebestreifen */
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 7.5rem;
+  height: 28px;
+  background: rgba(232, 211, 160, .75);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+  transform: translateX(-50%) rotate(-2deg);
+}
+.fortschritt { display: flex; align-items: center; gap: .75rem; margin: 0 0 1.6rem; font-size: .9rem; font-weight: 700; color: var(--gold-dunkel); }
+.fortschritt-balken { flex: 1 1 auto; height: 8px; overflow: hidden; background: #efe4cc; border-radius: 999px; }
+.fortschritt-balken span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--gold), var(--beere)); border-radius: 999px; transition: width .8s cubic-bezier(.3, 1, .4, 1); }
+.menue { display: grid; gap: 1.75rem; }
+@media (min-width: 700px) { .menue { grid-template-columns: 1fr 1fr; gap: 1rem 3rem; } }
+.menue h3 { margin: 0 0 .35rem; font-family: var(--display); font-style: italic; font-weight: 500; font-size: 1.55rem; font-variation-settings: var(--weich); color: var(--tanne); }
+.eintraege { list-style: none; margin: 0; padding: 0; }
+.eintrag { display: flex; align-items: baseline; gap: .5rem; min-height: 2.3rem; padding: .35rem 0; }
+.eintrag-name { position: relative; flex: 0 1 auto; font-weight: 600; }
+.punkte { flex: 1 1 1rem; min-width: 1rem; border-bottom: 2px dotted rgba(143, 111, 48, .35); transform: translateY(-.3rem); }
+.eintrag-wer { margin-left: 0; font-size: 1.45rem; }
+.eintrag-wer .frei-knopf {
+  font: inherit;
+  font-family: var(--text);
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--gold-dunkel);
+  background: none;
+  border: 1.5px dashed rgba(143, 111, 48, .6);
+  border-radius: 999px;
+  padding: .12rem .65rem;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s;
+}
+.eintrag-wer .frei-knopf:hover { background: rgba(201, 165, 92, .16); border-style: solid; }
+.eintrag-wer .frei-knopf:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.eintrag-wer .strich { font-family: var(--text); font-size: 1rem; color: #a7aea9; }
+.eintrag.extra .eintrag-name { font-weight: 500; font-style: italic; }
+
+.fuss { padding: 2.5rem 1.25rem 6.5rem; text-align: center; background: #0d221c; border-top: 1px solid rgba(201, 165, 92, .2); }
+.fuss p { margin: 0; font-family: var(--display); font-style: italic; font-weight: 500; font-size: 1.6rem; font-variation-settings: var(--weich); color: var(--gold-hell); }
+.fuss .gruss { margin-top: .2rem; font-family: var(--hand); font-style: normal; font-weight: 700; font-size: 1.8rem; color: var(--creme); }
+.fuss small { display: block; margin-top: .6rem; font-size: .72rem; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; color: rgba(248, 242, 230, .5); }
+
+/* ---------- Umschlag beim ersten Besuch ---------- */
+.umschlag-buehne {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: radial-gradient(80% 60% at 50% 42%, #1e4b3c 0%, var(--nacht) 78%);
+  transition: opacity .6s ease, visibility .6s;
+}
+html.mit-umschlag .umschlag-buehne { display: flex; }
+.umschlag-buehne.weg { opacity: 0; visibility: hidden; }
+.umschlag {
+  position: relative;
+  width: min(84vw, 380px);
+  aspect-ratio: 3 / 2;
+  padding: 0;
+  font: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  perspective: 1200px;
+  animation: schweben 3.4s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+.umschlag:focus-visible { outline: none; }
+@keyframes schweben { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+.u-ruecken, .u-vorne, .u-klappe, .u-karte, .u-siegel { position: absolute; display: block; }
+.u-ruecken { inset: 0; border-radius: 8px; background: linear-gradient(180deg, #cdb88f, #e4d5b5); box-shadow: 0 34px 60px -22px rgba(0, 0, 0, .85); }
+.u-karte {
+  left: 7%;
+  right: 7%;
+  top: 6%;
+  height: 88%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--tanne);
+  background: var(--papier);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 5px var(--papier), inset 0 0 0 6px var(--linie);
+  transition: transform .9s cubic-bezier(.2, .8, .2, 1) .75s;
+}
+.u-karte-klein { font-family: var(--hand); font-size: 1.35rem; font-weight: 700; line-height: 1; color: var(--beere); }
+.u-karte-titel { margin-top: .3rem; font-family: var(--display); font-style: italic; font-weight: 500; font-size: clamp(1.7rem, 8vw, 2.3rem); line-height: 1; font-variation-settings: var(--weich); }
+.u-karte-unter { margin-top: .4rem; font-family: var(--display); font-size: .75rem; font-weight: 600; letter-spacing: .4em; text-transform: uppercase; color: var(--gold-dunkel); }
+.u-vorne { /* Vorderseite mit Faltkanten, oben V-förmig offen */
+  inset: 0;
+  z-index: 3;
+  border-radius: 8px;
+  background: conic-gradient(from 0deg at 50% 52%, #ecdfc2 0deg 122.6deg, #f6eddb 122.6deg 237.4deg, #e8d9b8 237.4deg 360deg);
+  clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+}
+.u-klappe {
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 58%;
+  z-index: 4;
+  background: linear-gradient(180deg, #e6d6b4, #d6c196);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: 50% 0;
+  transition: transform .65s cubic-bezier(.4, 0, .2, 1) .2s, z-index 0s linear .52s;
+}
+.u-siegel {
+  left: 50%;
+  top: 58%;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 3.7rem;
+  height: 3.7rem;
+  margin: -1.85rem 0 0 -1.85rem;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.8rem;
+  font-variation-settings: var(--weich);
+  color: var(--gold-hell);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .35);
+  background: radial-gradient(circle at 35% 30%, #d4475e, #9a1d31 55%, #640e1d);
+  border-radius: 47% 53% 50% 50% / 52% 48% 52% 48%;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, .4), inset 0 0 0 4px rgba(0, 0, 0, .12), inset 0 0 0 6px rgba(255, 255, 255, .08);
+  transition: transform .35s cubic-bezier(.5, -.5, .7, 1), opacity .3s;
+  animation: siegel-puls 2.4s ease-out infinite;
+}
+@keyframes siegel-puls {
+  0% { box-shadow: 0 5px 12px rgba(0, 0, 0, .4), inset 0 0 0 4px rgba(0, 0, 0, .12), 0 0 0 0 rgba(232, 211, 160, .55); }
+  70%, 100% { box-shadow: 0 5px 12px rgba(0, 0, 0, .4), inset 0 0 0 4px rgba(0, 0, 0, .12), 0 0 0 14px rgba(232, 211, 160, 0); }
+}
+.umschlag-hinweis {
+  margin: 0;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--gold-hell);
+  animation: atmen 2.4s ease-in-out infinite;
+}
+@keyframes atmen { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+.umschlag-buehne.offen .umschlag { animation: none; cursor: default; }
+.umschlag-buehne.offen .u-siegel { transform: scale(1.3) rotate(-12deg); opacity: 0; animation: none; }
+.umschlag-buehne.offen .u-klappe { transform: rotateX(180deg); z-index: 1; }
+.umschlag-buehne.offen .u-karte { transform: translateY(-56%); }
+.umschlag-buehne.offen .umschlag-hinweis { opacity: 0; animation: none; transition: opacity .3s; }
+
+/* ---------- Kleinkram ---------- */
+.konfetti { position: fixed; z-index: 60; pointer-events: none; font-size: 1.3rem; text-shadow: 0 0 8px currentColor; animation: puff 1.3s ease-out forwards; }
+@keyframes puff {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(.4); }
+  to { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) rotate(var(--d)) scale(1.05); }
+}
+
+.demo-band {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .75rem;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem 1rem;
+  font-size: .88rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--tinte);
+  background: var(--gold-hell);
+}
+.demo-band { z-index: 4; }
+.demo-band button { font: inherit; font-weight: 700; color: var(--tinte); background: transparent; border: 1.5px solid var(--tinte); border-radius: 999px; padding: .1rem .75rem; cursor: pointer; }
+
+.nur-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .vergeben .streich::after { transform: rotate(-2.5deg); }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="beereVerlauf" cx="35%" cy="30%" r="70%">
+      <stop offset="0" stop-color="#f58595"/><stop offset=".38" stop-color="#c22a42"/><stop offset="1" stop-color="#6a0f1f"/>
+    </radialGradient>
+    <symbol id="stechpalme" viewBox="0 0 120 60">
+      <path d="M60 36 C 46 15, 22 9, 5 17 C 19 24, 35 38, 60 36 Z" fill="#2c6e55"/>
+      <path d="M60 36 C 45 27, 26 20, 8 17" stroke="#163f31" stroke-width="1.4" fill="none"/>
+      <path d="M60 36 C 74 15, 98 9, 115 17 C 101 24, 85 38, 60 36 Z" fill="#245a46"/>
+      <path d="M60 36 C 75 27, 94 20, 112 17" stroke="#123628" stroke-width="1.4" fill="none"/>
+      <circle cx="53" cy="38" r="7.5" fill="url(#beereVerlauf)"/>
+      <circle cx="67" cy="38" r="7.5" fill="url(#beereVerlauf)"/>
+      <circle cx="60" cy="28" r="7.5" fill="url(#beereVerlauf)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="umschlag-buehne" id="umschlag">
+  <button type="button" class="umschlag" id="umschlagKnopf" aria-label="Einladung von Leah öffnen">
+    <span class="u-ruecken"></span>
+    <span class="u-karte" aria-hidden="true">
+      <span class="u-karte-klein">Leah lädt dich ein</span>
+      <span class="u-karte-titel">Friendsmas</span>
+      <span class="u-karte-unter">Brunch</span>
+    </span>
+    <span class="u-vorne"></span>
+    <span class="u-klappe"></span>
+    <span class="u-siegel" aria-hidden="true">L</span>
+  </button>
+  <p class="umschlag-hinweis" aria-hidden="true">Tippen zum Öffnen</p>
+</div>
+
+<canvas id="schnee" aria-hidden="true"></canvas>
+
+<div class="seite" id="seite">
+<div class="demo-band ebene" id="demoBand" hidden>
+  <span>Demo-Modus: Antworten werden nur in diesem Browser gespeichert.</span>
+  <button type="button" id="demoReset">Demo zurücksetzen</button>
+</div>
+
+<div class="kopf ebene">
+  <div class="lichter" data-lichter aria-hidden="true"></div>
+  <span class="mini-kugel gold" aria-hidden="true" style="--x: 6%; --faden: 1.1rem; --gr: 2.3rem; --dauer: 6.2s"></span>
+  <span class="mini-kugel gruen" aria-hidden="true" style="--x: 19%; --faden: 2.7rem; --gr: 1.6rem; --dauer: 4.8s"></span>
+  <span class="mini-kugel beere breit" aria-hidden="true" style="--x: 86%; --faden: 1.6rem; --gr: 2rem; --dauer: 5.6s"></span>
+  <header class="hero">
+    <button type="button" class="kugel" id="kugel" aria-label="Antwort bis 30. November">
+      <span class="kugel-faden"></span>
+      <span class="kugel-kappe"></span>
+      <span class="kugel-koerper">
+        <span class="kugel-oben">Antwort bis</span>
+        <span class="kugel-datum" id="fristDatum">30.11.</span>
+        <span class="kugel-rest" id="fristRest"></span>
+      </span>
+    </button>
+    <p class="hero-gruss">Leah lädt ein</p>
+    <h1 tabindex="-1"><span class="zeile-1">Friendsmas<span class="funke f1" aria-hidden="true">✦</span><span class="funke f2" aria-hidden="true">✦</span><span class="funke f3" aria-hidden="true">✦</span></span> <span class="zeile-2"><span>Brunch</span></span></h1>
+    <div class="leah-hero" id="leahHero">
+      <div class="leah leah-gross" id="leahGross"></div>
+      <div class="sprechblase" id="blaseGross" aria-hidden="true"><span class="wer">Leah</span><p></p></div>
+    </div>
+    <p class="event-info" id="eventInfo" hidden></p>
+    <p class="stand" id="stand" aria-live="polite">Einen Moment, ich zähle die Gäste …</p>
+  </header>
+</div>
+
+<main class="haupt ebene">
+  <form class="zettel" id="form" novalidate>
+    <svg class="stechpalme" aria-hidden="true" focusable="false"><use href="#stechpalme"/></svg>
+    <div class="zettel-kopf">
+      <span class="marke">Antwortkarte</span>
+      <span class="marke-titel">Bist du dabei?</span>
+    </div>
+
+    <p class="schon-da" id="schonDa" hidden>Du hast schon geantwortet. Bis zum <span data-frist>30.11.</span> kannst du alles ändern: einfach anpassen und nochmal abschicken.</p>
+
+    <fieldset class="teil" id="teilName">
+      <legend>Wie heißt du?</legend>
+      <label class="feld" data-feld="name"><span>Dein Vorname</span>
+        <input type="text" name="name" autocomplete="given-name" maxlength="30" required>
+        <small>Steht später auf der Mitbring-Liste neben dem, was du mitbringst.</small>
+      </label>
+    </fieldset>
+
+    <fieldset class="teil" id="teilKommt">
+      <legend>Kommst du?</legend>
+      <div class="frist-karte">
+        <div class="kalender" aria-hidden="true"><span class="kal-monat" id="kalMonat">Nov</span><span class="kal-tag" id="kalTag">30</span></div>
+        <div>
+          <span class="frist-oben">Bitte antworte bis</span>
+          <span class="frist-gross" id="fristLang">30. November</span>
+          <span class="frist-noch" id="fristNoch"></span>
+        </div>
+      </div>
+      <div class="wahl">
+        <label class="kachel ja"><input type="radio" name="kommt" value="ja"><span class="kachel-emoji" aria-hidden="true">🥳</span><span>Ich komme!</span></label>
+        <label class="kachel"><input type="radio" name="kommt" value="nein"><span class="kachel-emoji" aria-hidden="true">😢</span><span>Ich kann leider nicht</span></label>
+      </div>
+    </fieldset>
+
+    <div id="nurZusage" hidden>
+      <fieldset class="teil" id="teilWichteln">
+        <legend>Wichtelst du mit?</legend>
+        <div class="regeln">
+          <p>Am <span data-auslosung>1. Dezember</span> lost der Wichtel-Computer aus. Danach sagt dir Leah, wen du beschenkst. Dich beschenkt dafür jemand anderes. Und pssst: nicht verraten!</p>
+          <p class="budget">Budget: höchstens <span data-budget>15 €</span></p>
+        </div>
+        <div class="wahl">
+          <label class="kachel"><input type="radio" name="wichtelt" value="ja"><span class="kachel-emoji" aria-hidden="true">🎁</span><span>Ich wichtel mit</span></label>
+          <label class="kachel"><input type="radio" name="wichtelt" value="nein"><span class="kachel-emoji" aria-hidden="true">👀</span><span>Ich schau nur zu</span></label>
+        </div>
+        <label class="feld" id="tippFeld" hidden><span>Kleiner Tipp für deinen Wichtel <i>(freiwillig)</i></span>
+          <textarea name="tipp" rows="2" maxlength="200" placeholder="z. B. mag Lakritz, hat schon genug Tassen"></textarea>
+        </label>
+      </fieldset>
+
+      <fieldset class="teil" id="teilBuffet">
+        <legend>Was bringst du mit?</legend>
+        <p class="hinweis-klein">Hak ab, was du mitbringst. Was schon jemand mitbringt, ist durchgestrichen.</p>
+        <div class="liste" id="liste"></div>
+        <label class="feld" data-feld="extra"><span>Etwas anderes? <i>(freiwillig)</i></span>
+          <input type="text" name="extra" maxlength="60" placeholder="z. B. Omas Geheimrezept">
+        </label>
+        <p class="doppelt" id="doppelt" aria-live="polite" hidden></p>
+      </fieldset>
+    </div>
+
+    <p class="fehler" id="fehler" role="alert" hidden></p>
+    <button class="abschicken" type="submit" id="senden">Antwort abschicken</button>
+  </form>
+
+  <div class="zettel zu" id="geschlossen" hidden>
+    <svg class="stechpalme" aria-hidden="true" focusable="false"><use href="#stechpalme"/></svg>
+    <h2>Die Anmeldung ist geschlossen</h2>
+    <p>Wer mitwichtelt, erfährt ab dem <span data-auslosung>1. Dezember</span> von Leah, wen er beschenkt. Bis bald am Buffet!</p>
+  </div>
+</main>
+
+<section class="tisch ebene" id="buffet" aria-labelledby="buffetTitel">
+  <div class="lichter" data-lichter aria-hidden="true"></div>
+  <div class="tisch-innen">
+    <div class="tisch-kopf">
+      <p class="tisch-marke">Live vom Buffet</p>
+      <h2 class="tafel" id="buffetTitel">Die Mitbring-Liste</h2>
+      <p class="tisch-unter"><span class="live-punkt" id="livePunkt" aria-hidden="true"></span>Das bringen alle mit <span class="stand-zeit" id="standZeit"></span></p>
+    </div>
+    <div class="blatt">
+      <div class="fortschritt"><span id="fortschrittText">0 vergeben</span><div class="fortschritt-balken" aria-hidden="true"><span id="fortschrittBalken"></span></div></div>
+      <div class="menue" id="menue"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="fuss ebene"><p>Bis bald am Buffet!</p><p class="gruss">Deine Leah</p><small>Friendsmas 2026 ✦</small></footer>
+</div>
+
+<div class="begleiter versteckt" id="begleiter">
+  <button type="button" class="begleiter-knopf" id="begleiterKnopf" aria-label="Was sagt Leah?"><span class="leah leah-klein" id="leahKlein"></span></button>
+  <div class="sprechblase zu" id="blaseKlein" aria-hidden="true"><span class="wer">Leah</span><p></p></div>
+</div>
+<p class="nur-sr" id="ansage" role="status" aria-live="polite"></p>
+
+<script>
+/* ===================== EINSTELLUNGEN ===================== */
+const CONFIG = {
+  // Web-App-URL aus Google Apps Script (endet auf /exec). Leer lassen = Demo-Modus.
+  API_URL: "",
+  // Anmeldeschluss (deutsche Winterzeit = +01:00)
+  DEADLINE: "2026-11-30T23:59:59+01:00",
+  AUSLOSUNG: "1. Dezember",
+  BUDGET: "15 €",
+  // Optional, wird unter der Überschrift angezeigt, z. B. "Samstag, 12. Dezember · ab 11 Uhr · bei Leah"
+  EVENT_INFO: "",
+  // Wie oft die Mitbring-Liste neu geladen wird (Sekunden)
+  POLL_SECONDS: 20,
+  // Die Mitbring-Liste. Einträge dürfen ergänzt oder gelöscht werden.
+  // Einen Eintrag, den schon jemand abgehakt hat, bitte nicht umbenennen (sonst verschwindet der Haken).
+  LISTE: [
+    { titel: "Getränke", emoji: "☕", posten: ["Punsch", "Orangensaft", "Apfelsaft", "Kaffee", "Tee", "Sekt", "Wasser"] },
+    { titel: "Essen", emoji: "🥐", posten: ["Brot & Brötchen", "Croissants", "Butter", "Aufstriche & Marmelade", "Käse", "Wurst", "Eier & Warmes", "Obst", "Gemüse & Dip", "Müsli & Joghurt", "Kuchen", "Plätzchen", "Waffeln oder Pancakes"] }
+  ]
+};
+/* ========================================================= */
+
+function kennung(text) {
+  return String(text).toLowerCase()
+    .replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40);
+}
+const POSTEN = CONFIG.LISTE.flatMap(g => g.posten.map(name => ({ id: kennung(name), name, gruppe: g.titel })));
+const POSTEN_NACH_ID = Object.fromEntries(POSTEN.map(p => [p.id, p]));
+
+const FEHLER = {
+  name: "Wie heißt du? Bitte trag deinen Vornamen ein.",
+  kommt: "Kommst du? Bitte wähle eine Antwort.",
+  wichtelt: "Wichtelst du mit? Bitte wähle eine Antwort.",
+  vergeben: "Das hat sich gerade jemand anderes geschnappt. Such dir bitte was anderes aus.",
+  closed: "Die Anmeldung ist geschlossen.",
+  code: "Dieser Link ist unvollständig. Bitte scanne den QR-Code auf der Einladung nochmal.",
+  netz: "Keine Verbindung zum Server. Bitte versuch es gleich nochmal.",
+  format: "Das hat nicht geklappt. Bitte versuch es nochmal."
+};
+
+const KUGEL_SPRUECHE = [
+  "Vorsicht, die Kugel ist aus Glas! ✨",
+  "Nicht schütteln, da sind Lebkuchen drin.",
+  "Tick, tack … der Wichtel-Computer wird schon nervös.",
+  "Wer an der Kugel rüttelt, bringt Glühwein mit. 😉"
+];
+
+const SPEICHER_ANTWORT = "friendsmas-antwort";
+const SPEICHER_DEMO = "friendsmas-demo";
+const SPEICHER_UMSCHLAG = "friendsmas-umschlag";
+const SPEICHER_ID = "friendsmas-id";
+const reduziert = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const einladungsCode = new URLSearchParams(location.search).get("k") || "";
+const demo = !CONFIG.API_URL;
+const fristZeit = new Date(CONFIG.DEADLINE).getTime();
+
+const $ = id => document.getElementById(id);
+const form = $("form");
+const feld = n => form.elements.namedItem(n);
+const sanft = () => reduziert ? "auto" : "smooth";
+
+let stand = null;          // letzter Stand vom Server
+let letzteLadung = 0;
+let ladeFehler = false;
+
+/* ---------- Speicher (kann in manchen Browsern fehlen) ---------- */
+function lies(schluessel) { try { return JSON.parse(localStorage.getItem(schluessel)); } catch (e) { return null; } }
+function schreib(schluessel, wert) { try { localStorage.setItem(schluessel, JSON.stringify(wert)); } catch (e) {} }
+function meineId() {
+  let id = lies(SPEICHER_ID);
+  if (typeof id !== "string" || !/^[a-f0-9]{16,64}$/.test(id)) {
+    const b = new Uint8Array(12);
+    crypto.getRandomValues(b);
+    id = Array.from(b, x => x.toString(16).padStart(2, "0")).join("");
+    schreib(SPEICHER_ID, id);
+  }
+  return id;
+}
+function gleicherName(a, b) { return String(a || "").replace(/\s+/g, " ").trim().toLowerCase() === String(b || "").replace(/\s+/g, " ").trim().toLowerCase(); }
+
+/* ---------- Umschlag (zuerst, damit er nie hängen bleibt) ---------- */
+let umschlagZu = document.documentElement.classList.contains("mit-umschlag");
+function umschlag() {
+  if (!umschlagZu) return;
+  const buehne = $("umschlag"), knopf = $("umschlagKnopf"), seite = $("seite");
+  seite.inert = true;
+  knopf.focus();
+  let offen = false;
+  const oeffnen = () => {
+    if (offen) return;
+    offen = true;
+    schreib(SPEICHER_UMSCHLAG, true);
+    buehne.classList.add("offen");
+    setTimeout(() => buehne.classList.add("weg"), 1850);
+    setTimeout(() => {
+      document.documentElement.classList.remove("mit-umschlag");
+      seite.inert = false;
+      umschlagZu = false;
+      document.querySelector("h1").focus({ preventScroll: true });
+      leah.begruessen();
+    }, 2500);
+  };
+  knopf.addEventListener("click", oeffnen);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") oeffnen(); });
+}
+umschlag();
+
+/* ---------- Weihnachts-Leah ---------- */
+const LEAH_SVG =
+'<svg class="leah-svg" viewBox="0 0 160 190" aria-hidden="true" focusable="false">' +
+  '<path d="M46 70 C 37 96, 33 128, 38 156 C 52 165, 108 165, 122 156 C 127 128, 123 96, 114 70 Z" fill="#cf9d45"/>' +
+  '<path d="M70 116 L70 140 Q80 147 90 140 L90 116 Z" fill="#ecb996"/>' +
+  '<path d="M22 190 C 24 162, 44 144, 80 144 C 116 144, 136 162, 138 190 Z" fill="#a31f34"/>' +
+  '<path d="M33 174 L41 168 L49 174 L57 168 L65 174 L73 168 L81 174 L89 168 L97 174 L105 168 L113 174 L121 168 L128 173" stroke="#f8f2e6" stroke-width="2.2" fill="none" stroke-linejoin="round"/>' +
+  '<g fill="#e8d3a0"><circle cx="45" cy="182" r="1.8"/><circle cx="61" cy="182" r="1.8"/><circle cx="77" cy="182" r="1.8"/><circle cx="109" cy="182" r="1.8"/><circle cx="117" cy="160" r="1.8"/><circle cx="43" cy="160" r="1.8"/></g>' +
+  '<path d="M54 139 C 64 151, 96 151, 106 139 C 111 143, 112 149, 110 154 C 96 164, 64 164, 50 154 C 48 149, 49 143, 54 139 Z" fill="#2c6e55"/>' +
+  '<path d="M87 156 C 91 168, 93 178, 95 189 L 83 190 C 82 179, 80 168, 77 159 Z" fill="#245a46"/>' +
+  '<path d="M80 171 L92 169 M81.5 179 L93.5 177" stroke="#e8d3a0" stroke-width="2"/>' +
+  '<ellipse cx="80" cy="92" rx="32" ry="35" fill="#f6cfb0"/>' +
+  '<path d="M49 82 C 40 108, 40 136, 46 159 C 52 162, 57 158, 57 151 C 50 132, 50 108, 55 90 Z" fill="#e6b85c"/>' +
+  '<path d="M111 82 C 120 108, 120 136, 114 159 C 108 162, 103 158, 103 151 C 110 132, 110 108, 105 90 Z" fill="#e6b85c"/>' +
+  '<path d="M47 92 C 45 68, 62 55, 80 55 C 100 55, 116 68, 113 92 C 109 83, 104 77, 98 75 C 94 81, 86 83, 80 79 C 74 85, 64 87, 56 85 C 52 87, 49 89, 47 92 Z" fill="#efc46a"/>' +
+  '<g class="augen"><ellipse cx="68" cy="97" rx="3.4" ry="4.4" fill="#2a1b14"/><ellipse cx="92" cy="97" rx="3.4" ry="4.4" fill="#2a1b14"/>' +
+  '<circle cx="69.2" cy="95.4" r="1.2" fill="#fff"/><circle cx="93.2" cy="95.4" r="1.2" fill="#fff"/></g>' +
+  '<path d="M64.6 94 l-3 -2 M95.4 94 l3 -2" stroke="#2a1b14" stroke-width="1.4" stroke-linecap="round"/>' +
+  '<path d="M62 89 Q 67 86 73 88 M87 88 Q 93 86 98 89" stroke="#c4923e" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+  '<circle cx="60" cy="107" r="6" fill="#f29aa6" opacity=".55"/><circle cx="100" cy="107" r="6" fill="#f29aa6" opacity=".55"/>' +
+  '<path d="M80 100 q 2 3 -1 4" stroke="#d99a7c" stroke-width="1.6" fill="none" stroke-linecap="round"/>' +
+  '<path class="mund-froh" d="M72 111 Q 80 119 88 111" stroke="#8c2033" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
+  '<path class="mund-offen" d="M72 110 Q 80 122 88 110 Z" fill="#8c2033" stroke="#8c2033" stroke-width="1.5" stroke-linejoin="round"/>' +
+  '<path class="mund-traurig" d="M73 116 Q 80 110 87 116" stroke="#8c2033" stroke-width="2.6" fill="none" stroke-linecap="round"/>' +
+  '<path d="M46 62 C 47 31, 69 12, 96 13 C 119 15, 133 32, 139 56 L 136 61 C 128 47, 118 41, 110 43 C 114 47, 116 53, 116 60 Z" fill="#b8263d"/>' +
+  '<path d="M96 13 C 119 15, 133 32, 139 56 L 136 61 C 128 47, 118 41, 110 43 C 112 33, 106 20, 96 13 Z" fill="#7c1526" opacity=".45"/>' +
+  '<rect x="42" y="53" width="78" height="17" rx="8.5" fill="#fbf6ec" transform="rotate(-6 81 61.5)"/>' +
+  '<circle cx="139" cy="62" r="9" fill="#fbf6ec"/>' +
+  '<g class="arm"><path d="M117 157 C 127 147, 135 132, 139 119" stroke="#a31f34" stroke-width="13" stroke-linecap="round" fill="none"/>' +
+  '<rect x="132" y="114" width="15" height="6" rx="3" fill="#fbf6ec" transform="rotate(-18 139.5 117)"/>' +
+  '<ellipse cx="141" cy="105" rx="8" ry="9.5" fill="#2c6e55"/><ellipse cx="133" cy="108" rx="3.2" ry="4.6" fill="#2c6e55" transform="rotate(-32 133 108)"/></g>' +
+'</svg>';
+
+const leah = (() => {
+  const gross = $("leahGross"), klein = $("leahKlein");
+  gross.innerHTML = LEAH_SVG;
+  klein.innerHTML = LEAH_SVG.replace('viewBox="0 0 160 190"', 'viewBox="35 33 90 90"');
+  klein.querySelector(".arm").remove();
+  const figuren = [gross, klein];
+  const blasen = [$("blaseGross"), $("blaseKlein")];
+  const begleiter = $("begleiter");
+  let sperreBis = 0, wartend = null, wartTimer, zuTimer, sprechTimer, juhuTimer, letzter = "";
+
+  function zeige(text, stimmung) {
+    letzter = text;
+    blasen.forEach(b => {
+      b.querySelector("p").textContent = text;
+      b.classList.remove("neu"); void b.offsetWidth; b.classList.add("neu");
+    });
+    figuren.forEach(f => { f.classList.remove("traurig", "juhu"); f.classList.add("spricht"); if (stimmung) f.classList.add(stimmung); });
+    clearTimeout(sprechTimer);
+    sprechTimer = setTimeout(() => figuren.forEach(f => f.classList.remove("spricht")), Math.min(2600, 500 + text.length * 25));
+    clearTimeout(juhuTimer);
+    if (stimmung === "juhu") juhuTimer = setTimeout(() => figuren.forEach(f => f.classList.remove("juhu")), 1100);
+    $("blaseKlein").classList.remove("zu");
+    clearTimeout(zuTimer);
+    zuTimer = setTimeout(() => $("blaseKlein").classList.add("zu"), 8000);
+  }
+  // ort = Hinweis beim Scrollen (leise, wartet hinter Reaktionen). Sonst: Reaktion auf eine Handlung.
+  function sagen(text, { stimmung = "", ort = false } = {}) {
+    if (!text) return;
+    if (ort) {
+      if (text === letzter) return;
+      if (Date.now() < sperreBis) {
+        wartend = [text, stimmung];
+        clearTimeout(wartTimer);
+        wartTimer = setTimeout(() => { if (wartend) { zeige(wartend[0], wartend[1]); wartend = null; } }, sperreBis - Date.now());
+        return;
+      }
+    } else {
+      sperreBis = Date.now() + 4500;
+      wartend = null;
+      $("ansage").textContent = text;
+    }
+    zeige(text, stimmung);
+  }
+  function begruessen() {
+    gross.classList.add("winkt");
+    setTimeout(() => gross.classList.remove("winkt"), 3000);
+    const a = eigeneAntwort();
+    sagen(a && a.name
+      ? "Schön, dass du wieder da bist, " + a.name + "! Bis zum " + $("fristDatum").textContent + " kannst du alles ändern."
+      : "Hi, ich bin Leah! 🎄 Ich lade dich zum Friendsmas Brunch ein. Scroll runter, ich zeig dir alles.");
+  }
+
+  // Kleine Leah unten links, sobald die große aus dem Bild ist
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(e => begleiter.classList.toggle("versteckt", e[0].isIntersecting), { threshold: 0 }).observe($("leahHero"));
+  }
+  $("begleiterKnopf").addEventListener("click", () => {
+    const b = $("blaseKlein");
+    if (b.classList.contains("zu")) { zeige(letzter || "Ich bin da, wenn du mich brauchst! 🎄"); } else { b.classList.add("zu"); }
+  });
+  $("blaseKlein").addEventListener("click", () => $("blaseKlein").classList.add("zu"));
+  // Beim Tippen auf dem Handy aus dem Weg gehen
+  document.addEventListener("focusin", e => { if (e.target.matches('input[type="text"], textarea')) begleiter.classList.add("tippt"); });
+  document.addEventListener("focusout", () => begleiter.classList.remove("tippt"));
+
+  return { sagen, begruessen };
+})();
+
+/* ---------- Demo-"Server" (nur wenn keine API_URL gesetzt ist) ---------- */
+const DEMO_START = [
+  { id: "d0000000000000000001", name: "Anna", kommt: "ja", wichtelt: "ja", posten: ["kuchen", "punsch"], extra: "" },
+  { id: "d0000000000000000002", name: "Ole", kommt: "ja", wichtelt: "ja", posten: ["brot-broetchen"], extra: "" },
+  { id: "d0000000000000000003", name: "Maren", kommt: "ja", wichtelt: "nein", posten: ["kaffee"], extra: "" },
+  { id: "d0000000000000000004", name: "Ben", kommt: "ja", wichtelt: "ja", posten: ["eier-warmes"], extra: "Weihnachts-Playlist 🎶" },
+  { id: "d0000000000000000005", name: "Lina", kommt: "nein", wichtelt: "nein", posten: [], extra: "" }
+];
+function demoZeilen() { return lies(SPEICHER_DEMO) || DEMO_START.slice(); }
+function demoStand(zeilen) {
+  const kommen = zeilen.filter(z => z.kommt === "ja");
+  const vergeben = {};
+  kommen.forEach(z => (z.posten || []).forEach(id => { if (!vergeben[id]) vergeben[id] = z.name; }));
+  return {
+    ok: true,
+    kommen: kommen.length,
+    wichteln: kommen.filter(z => z.wichtelt === "ja").length,
+    closed: Date.now() > fristZeit,
+    vergeben,
+    extras: kommen.filter(z => z.extra).map(z => ({ name: z.name, was: z.extra }))
+  };
+}
+function demoSende(p) {
+  if (Date.now() > fristZeit) return { ok: false, error: "closed" };
+  const zeilen = demoZeilen();
+  const ids = p.posten.map(x => x.id);
+  const schon = zeilen.filter(z => z.id !== p.id && z.kommt === "ja").flatMap(z => z.posten || []);
+  const konflikt = ids.filter(id => schon.includes(id));
+  if (konflikt.length) return Object.assign(demoStand(zeilen), { ok: false, error: "vergeben", konflikt });
+  const zeile = { id: p.id, name: p.name, kommt: p.kommt, wichtelt: p.wichtelt, posten: ids, extra: p.extra };
+  const i = zeilen.findIndex(z => z.id === p.id);
+  if (i >= 0) zeilen[i] = zeile; else zeilen.push(zeile);
+  schreib(SPEICHER_DEMO, zeilen);
+  return demoStand(zeilen);
+}
+
+/* ---------- Verbindung zum Apps Script ---------- */
+async function mitZeitlimit(promise, ms) {
+  let t;
+  const zeit = new Promise((_, nein) => { t = setTimeout(() => nein(new Error("timeout")), ms); });
+  try { return await Promise.race([promise, zeit]); } finally { clearTimeout(t); }
+}
+async function holeStand() {
+  if (demo) return demoStand(demoZeilen());
+  const url = CONFIG.API_URL + (CONFIG.API_URL.includes("?") ? "&" : "?") + "k=" + encodeURIComponent(einladungsCode) + "&t=" + Date.now();
+  const antwort = await mitZeitlimit(fetch(url), 15000);
+  return antwort.json();
+}
+async function sende(daten) {
+  if (demo) return demoSende(daten);
+  // Kein eigener Content-Type -> "einfache" Anfrage ohne CORS-Vorabprüfung
+  const antwort = await mitZeitlimit(fetch(CONFIG.API_URL, { method: "POST", body: JSON.stringify(daten) }), 20000);
+  return antwort.json();
+}
+
+/* ---------- Anzeige: Kopf und Frist ---------- */
+function tageBis() {
+  const tag = d => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Berlin" }).format(d).split("-").map(Number);
+  const [a, b] = [tag(new Date()), tag(new Date(CONFIG.DEADLINE))].map(([j, m, t]) => Date.UTC(j, m - 1, t));
+  return Math.round((b - a) / 864e5);
+}
+function zeigeFrist() {
+  const frist = new Date(CONFIG.DEADLINE);
+  const zone = { timeZone: "Europe/Berlin" };
+  const kurz = frist.toLocaleDateString("de-DE", Object.assign({ day: "numeric", month: "numeric" }, zone));
+  document.querySelectorAll("[data-frist]").forEach(e => e.textContent = kurz);
+  $("fristDatum").textContent = kurz;
+  $("kalTag").textContent = frist.toLocaleDateString("de-DE", Object.assign({ day: "numeric" }, zone)).replace(".", "");
+  $("kalMonat").textContent = frist.toLocaleDateString("de-DE", Object.assign({ month: "short" }, zone)).replace(".", "");
+  $("fristLang").textContent = frist.toLocaleDateString("de-DE", Object.assign({ weekday: "long", day: "numeric", month: "long" }, zone));
+  const tage = tageBis();
+  let text;
+  if (Date.now() > fristZeit) text = "vorbei";
+  else if (tage <= 0) text = "heute letzter Tag!";
+  else if (tage === 1) text = "nur noch 1 Tag";
+  else text = "noch " + tage + " Tage";
+  $("fristRest").textContent = text;
+  $("fristNoch").textContent = Date.now() > fristZeit ? "Anmeldeschluss vorbei" : text;
+  $("fristNoch").classList.toggle("knapp", tage <= 3);
+  $("kugel").setAttribute("aria-label", "Antwort bis " + kurz + " (" + text + ")");
+  document.querySelectorAll("[data-budget]").forEach(e => e.textContent = CONFIG.BUDGET);
+  document.querySelectorAll("[data-auslosung]").forEach(e => e.textContent = CONFIG.AUSLOSUNG);
+  if (CONFIG.EVENT_INFO) { $("eventInfo").textContent = CONFIG.EVENT_INFO; $("eventInfo").hidden = false; }
+}
+
+function zeigeZaehler() {
+  const el = $("stand");
+  if (!stand) return;
+  const k = stand.kommen, w = stand.wichteln;
+  el.textContent = "";
+  if (!k) { el.textContent = "Noch hat niemand zugesagt. Mach den Anfang!"; return; }
+  const b1 = document.createElement("b"); b1.textContent = k === 1 ? "1 Person" : k + " Leute";
+  el.append("Schon ", b1, k === 1 ? " kommt" : " kommen");
+  if (w) {
+    const b2 = document.createElement("b"); b2.textContent = String(w);
+    el.append(", ", b2, w === 1 ? " davon wichtelt mit." : " davon wichteln mit.");
+  } else el.append(".");
+}
+
+/* ---------- Die Liste: zum Abhaken (Formular) und für alle (unten) ---------- */
+function eigeneAntwort() { return lies(SPEICHER_ANTWORT); }
+function nurSr(text) { const s = document.createElement("span"); s.className = "nur-sr"; s.textContent = text; return s; }
+
+function baueListen() {
+  const liste = $("liste"), menue = $("menue");
+  CONFIG.LISTE.forEach(g => {
+    // Formular
+    const gruppe = document.createElement("div");
+    const h = document.createElement("h3");
+    h.className = "gruppe-titel";
+    h.innerHTML = '<span aria-hidden="true"></span><span></span><span class="offen"></span>';
+    h.children[0].textContent = g.emoji;
+    h.children[1].textContent = g.titel;
+    h.children[2].dataset.gruppe = g.titel;
+    const ul = document.createElement("ul");
+    ul.className = "posten-liste";
+    // für alle
+    const spalte = document.createElement("div");
+    const h2 = document.createElement("h3");
+    h2.textContent = g.titel;
+    const ol = document.createElement("ul");
+    ol.className = "eintraege";
+    g.posten.forEach(name => {
+      const id = kennung(name);
+      const li = document.createElement("li");
+      li.className = "posten";
+      li.dataset.id = id;
+      li.innerHTML = '<label><input type="checkbox" name="posten"><span class="haken" aria-hidden="true"></span><span class="posten-name streich"></span><span class="posten-wer"></span></label>';
+      li.querySelector("input").value = id;
+      li.querySelector(".posten-name").textContent = name;
+      ul.append(li);
+      const e = document.createElement("li");
+      e.className = "eintrag";
+      e.dataset.id = id;
+      e.innerHTML = '<span class="eintrag-name streich"></span><span class="punkte" aria-hidden="true"></span><span class="eintrag-wer"></span>';
+      e.querySelector(".eintrag-name").textContent = name;
+      ol.append(e);
+    });
+    gruppe.append(h, ul);
+    liste.append(gruppe);
+    spalte.append(h2, ol);
+    menue.append(spalte);
+  });
+  const extra = document.createElement("div");
+  extra.id = "extraSpalte";
+  extra.hidden = true;
+  extra.innerHTML = '<h3>Und außerdem</h3><ul class="eintraege" id="extraListe"></ul>';
+  menue.append(extra);
+}
+
+function aktualisiereListen() {
+  const vergeben = (stand && stand.vergeben) || {};
+  const eigen = eigeneAntwort();
+  const meine = new Set(eigen && eigen.kommt === "ja" ? (eigen.posten || []) : []);
+  const offen = formOffen();
+  const verloren = [];
+  let anzahl = 0;
+  POSTEN.forEach(p => {
+    const wer = vergeben[p.id];
+    const istMeins = !!wer && meine.has(p.id) && gleicherName(wer, eigen && eigen.name);
+    const fremd = !!wer && !istMeins;
+    if (wer) anzahl++;
+
+    const li = $("liste").querySelector('[data-id="' + p.id + '"]');
+    const input = li.querySelector("input");
+    if (fremd && input.checked) verloren.push([p, wer]);
+    li.classList.toggle("vergeben", fremd);
+    li.classList.toggle("meins", istMeins);
+    if (fremd) input.checked = false;
+    input.disabled = fremd || !offen;
+    const w1 = li.querySelector(".posten-wer");
+    w1.textContent = "";
+    if (fremd) w1.append(nurSr("bringt schon "), wer);
+    else if (istMeins) w1.textContent = "du";
+
+    const e = $("menue").querySelector('[data-id="' + p.id + '"]');
+    e.classList.toggle("vergeben", !!wer);
+    e.classList.toggle("meins", istMeins);
+    const w2 = e.querySelector(".eintrag-wer");
+    w2.textContent = "";
+    if (wer) w2.append(nurSr("bringt "), istMeins ? wer + " (du)" : wer);
+    else if (offen) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "frei-knopf";
+      b.textContent = "noch frei";
+      b.setAttribute("aria-label", p.name + " ist noch frei. Übernehmen?");
+      b.addEventListener("click", () => waehlePosten(p.id));
+      w2.append(b);
+    } else {
+      const s = document.createElement("span"); s.className = "strich"; s.textContent = "–"; w2.append(s);
+    }
+  });
+
+  // Freie Plätze je Gruppe im Formular
+  CONFIG.LISTE.forEach(g => {
+    const frei = g.posten.filter(n => !vergeben[kennung(n)]).length;
+    const el = $("liste").querySelector('[data-gruppe="' + g.titel + '"]');
+    if (el) el.textContent = frei ? "noch " + frei + " frei" : "alles vergeben";
+  });
+
+  // Extras
+  const extras = (stand && stand.extras) || [];
+  const ul = $("extraListe");
+  ul.textContent = "";
+  extras.forEach(x => {
+    const e = document.createElement("li");
+    e.className = "eintrag extra vergeben";
+    const istMeins = eigen && eigen.kommt === "ja" && gleicherName(x.name, eigen.name) && eigen.extra === x.was;
+    if (istMeins) e.classList.add("meins");
+    e.innerHTML = '<span class="eintrag-name"></span><span class="punkte" aria-hidden="true"></span><span class="eintrag-wer"></span>';
+    e.querySelector(".eintrag-name").textContent = x.was;
+    e.querySelector(".eintrag-wer").append(nurSr("bringt "), istMeins ? x.name + " (du)" : x.name);
+    ul.append(e);
+  });
+  $("extraSpalte").hidden = !extras.length;
+
+  $("fortschrittText").textContent = anzahl + " von " + POSTEN.length + " vergeben";
+  $("fortschrittBalken").style.width = (POSTEN.length ? anzahl / POSTEN.length * 100 : 0) + "%";
+
+  if (verloren.length) {
+    const [p, wer] = verloren[0];
+    leah.sagen("Oh, " + wer + " war schneller und bringt schon " + p.name + " mit. Such dir was anderes aus! 😅", { stimmung: "traurig" });
+  }
+  pruefeDoppelt();
+}
+
+function zeigeStandZeit() {
+  const el = $("standZeit");
+  const punkt = $("livePunkt");
+  if (ladeFehler) { el.textContent = "(gerade keine Verbindung)"; punkt.classList.add("aus"); return; }
+  punkt.classList.remove("aus");
+  if (!letzteLadung) { el.textContent = "(wird geladen …)"; return; }
+  const s = Math.round((Date.now() - letzteLadung) / 1000);
+  el.textContent = s < 15 ? "(Stand: gerade eben)" : s < 90 ? "(Stand: vor " + s + " Sek.)" : "(Stand: vor " + Math.round(s / 60) + " Min.)";
+}
+
+/* ---------- Formular ---------- */
+function formOffen() { return Date.now() <= fristZeit && !(stand && stand.closed); }
+function kommtWert() { return form.querySelector('input[name="kommt"]:checked')?.value || ""; }
+function gewaehltePosten() { return [...form.querySelectorAll('input[name="posten"]:checked:not(:disabled)')].map(i => POSTEN_NACH_ID[i.value]).filter(Boolean); }
+function offenePosten() { const v = (stand && stand.vergeben) || {}; return POSTEN.filter(p => !v[p.id]); }
+
+function normal(s) { return String(s || "").toLowerCase().replace(/[^a-zäöüß0-9]/g, ""); }
+let letzterDoppelt = "";
+function pruefeDoppelt() {
+  const el = $("doppelt");
+  const eingabe = normal(feld("extra").value);
+  el.hidden = true;
+  if (eingabe.length < 3 || !stand) { letzterDoppelt = ""; return; }
+  const passt = n => n === eingabe || (Math.min(n.length, eingabe.length) >= 4 && (n.includes(eingabe) || eingabe.includes(n)));
+  const eigen = eigeneAntwort();
+  const posten = POSTEN.find(p => passt(normal(p.name)));
+  const extra = ((stand && stand.extras) || []).find(x => passt(normal(x.was)) && !(eigen && gleicherName(x.name, eigen.name)));
+  let text = "";
+  if (posten) {
+    const wer = stand.vergeben && stand.vergeben[posten.id];
+    text = wer && !(eigen && gleicherName(wer, eigen.name))
+      ? "„" + posten.name + "“ bringt schon " + wer + " mit. Doppelt hält besser, oder magst du was anderes nehmen?"
+      : "„" + posten.name + "“ steht schon auf der Liste. Hak es einfach oben ab!";
+  } else if (extra) {
+    text = "„" + extra.was + "“ bringt schon " + extra.name + " mit. Doppelt hält besser, oder magst du was anderes nehmen?";
+  }
+  if (text) {
+    el.textContent = text;
+    el.hidden = false;
+    if (text !== letzterDoppelt) leah.sagen("Huch! " + text.split(".")[0] + ". 😅");
+  }
+  letzterDoppelt = text;
+}
+
+function aktualisiereSichtbarkeit(animiert) {
+  const kommt = kommtWert();
+  const box = $("nurZusage");
+  const vorher = box.hidden;
+  box.hidden = kommt !== "ja";
+  if (animiert && vorher && !box.hidden) { box.classList.remove("auftauchen"); void box.offsetWidth; box.classList.add("auftauchen"); }
+  const wichtelt = form.querySelector('input[name="wichtelt"]:checked')?.value;
+  $("tippFeld").hidden = wichtelt !== "ja";
+}
+
+function waehlePosten(id) {
+  const input = $("liste").querySelector('input[value="' + id + '"]');
+  if (!input || input.disabled) return;
+  input.checked = true;
+  if (kommtWert() === "ja") {
+    input.closest(".posten").scrollIntoView({ behavior: sanft(), block: "center" });
+    input.focus({ preventScroll: true });
+    leah.sagen(POSTEN_NACH_ID[id].name + "? Perfekt, ist abgehakt! Jetzt nur noch abschicken. ✍️", { stimmung: "juhu" });
+  } else {
+    $("teilKommt").scrollIntoView({ behavior: sanft(), block: "center" });
+    leah.sagen("Prima, " + POSTEN_NACH_ID[id].name + " hab ich schon mal abgehakt! Sag mir noch kurz, ob du kommst. 😉");
+  }
+}
+
+function sammle() {
+  const kommt = kommtWert();
+  const wichtelt = kommt === "ja" ? (form.querySelector('input[name="wichtelt"]:checked')?.value || "") : "nein";
+  return {
+    k: einladungsCode,
+    id: meineId(),
+    name: feld("name").value.replace(/\s+/g, " ").trim(),
+    kommt,
+    wichtelt,
+    tipp: wichtelt === "ja" ? feld("tipp").value.trim() : "",
+    posten: kommt === "ja" ? gewaehltePosten().map(p => ({ id: p.id, name: p.name })) : [],
+    extra: kommt === "ja" ? feld("extra").value.trim() : ""
+  };
+}
+function pruefe(d) {
+  if (!d.name) return ["name", feld("name")];
+  if (!d.kommt) return ["kommt", form.querySelector('input[name="kommt"]')];
+  if (d.kommt === "ja" && !d.wichtelt) return ["wichtelt", form.querySelector('input[name="wichtelt"]')];
+  return null;
+}
+function markiere(schluessel, el) {
+  form.querySelectorAll(".falsch").forEach(e => e.classList.remove("falsch"));
+  const f = $("fehler");
+  if (!schluessel) { f.hidden = true; return; }
+  f.textContent = FEHLER[schluessel] || FEHLER.format;
+  f.hidden = false;
+  if (schluessel !== "vergeben") leah.sagen("Hoppla! " + f.textContent, { stimmung: "traurig" });
+  if (el) {
+    (el.closest(".feld") || el.closest(".teil"))?.classList.add("falsch");
+    el.focus({ preventScroll: true });
+    el.scrollIntoView({ behavior: sanft(), block: "center" });
+  }
+}
+
+async function abschicken(e) {
+  e.preventDefault();
+  const daten = sammle();
+  const problem = pruefe(daten);
+  if (problem) { markiere(problem[0], problem[1]); return; }
+  markiere(null);
+  const knopf = $("senden");
+  knopf.disabled = true;
+  knopf.textContent = "Wird abgeschickt …";
+  try {
+    const antwort = await sende(daten);
+    if (!antwort || !antwort.ok) {
+      const code = (antwort && antwort.error) || "format";
+      if (code === "vergeben" && antwort.vergeben) {
+        stand = antwort; letzteLadung = Date.now(); ladeFehler = false;
+        aktualisiereListen(); // streicht die Konflikte durch, entfernt die Haken und Leah sagt Bescheid
+        markiere("vergeben", null);
+        $("teilBuffet").scrollIntoView({ behavior: sanft(), block: "start" });
+        return;
+      }
+      markiere(code, null);
+      if (code === "closed") { stand = Object.assign(stand || {}, { closed: true }); zeigeGeschlossen(); }
+      return;
+    }
+    const neu = !eigeneAntwort();
+    schreib(SPEICHER_ANTWORT, { name: daten.name, kommt: daten.kommt, wichtelt: daten.wichtelt, tipp: daten.tipp, posten: daten.posten.map(p => p.id), extra: daten.extra });
+    stand = antwort; letzteLadung = Date.now(); ladeFehler = false;
+    zeigeZaehler(); aktualisiereListen(); zeigeStandZeit();
+    $("schonDa").hidden = false;
+    if (daten.kommt === "ja") {
+      konfetti(knopf);
+      const mit = daten.posten.length ? " Ich hab " + daten.posten.map(p => p.name).join(", ") + " für dich durchgestrichen." : "";
+      leah.sagen(daten.wichtelt === "ja"
+        ? "Abgeschickt! 🎉" + mit + " Am " + CONFIG.AUSLOSUNG + " sag ich dir, wen du beschenkst."
+        : (neu ? "Abgeschickt! 🎉" + mit + " Ich freu mich auf dich!" : "Hab’s geändert! 👍" + mit), { stimmung: "juhu" });
+      if (daten.posten.length || daten.extra) {
+        setTimeout(() => $("buffet").scrollIntoView({ behavior: sanft(), block: "start" }), 1200);
+      }
+    } else {
+      leah.sagen("Danke fürs Bescheidsagen! Ich werd dich vermissen. 💚", { stimmung: "traurig" });
+    }
+  } catch (err) {
+    markiere("netz", null);
+  } finally {
+    knopf.disabled = false;
+    knopf.textContent = "Antwort abschicken";
+  }
+}
+
+function fuelleAus(a) {
+  if (!a) return;
+  feld("name").value = a.name || "";
+  const setze = (name, wert) => { const r = form.querySelector('input[name="' + name + '"][value="' + wert + '"]'); if (r) r.checked = true; };
+  if (a.kommt) setze("kommt", a.kommt);
+  if (a.wichtelt) setze("wichtelt", a.wichtelt);
+  (a.posten || []).forEach(id => setze("posten", id));
+  feld("tipp").value = a.tipp || "";
+  feld("extra").value = a.extra || "";
+  $("schonDa").hidden = false;
+  aktualisiereSichtbarkeit(false);
+}
+
+let geschlossenGesagt = false;
+function zeigeGeschlossen() {
+  if (formOffen()) return;
+  form.hidden = true;
+  $("geschlossen").hidden = false;
+  if (!geschlossenGesagt) { geschlossenGesagt = true; leah.sagen("Die Anmeldung ist zu. Wir sehen uns am Buffet! 🎄", { ort: true }); }
+}
+
+/* ---------- Leah begleitet beim Scrollen ---------- */
+function leahOrte() {
+  if (!("IntersectionObserver" in window)) return;
+  const orte = new Map([
+    [$("teilName"), () => "Erst mal: Wie heißt du? Der Vorname reicht völlig."],
+    [$("teilKommt"), () => "Und jetzt die wichtigste Frage des Jahres … 🥁 Antworte bitte bis " + $("fristLang").textContent + "."],
+    [$("teilWichteln"), () => "Wichteln! Höchstens " + CONFIG.BUDGET + ". Am " + CONFIG.AUSLOSUNG + " sag ich dir, wen du beschenkst."],
+    [$("teilBuffet"), () => {
+      const frei = offenePosten();
+      if (!frei.length) return "Die Liste ist komplett vergeben, wow! Bring einfach was, worauf du Lust hast.";
+      return "Was bringst du mit? Noch bringt niemand " + frei[Math.floor(Math.random() * frei.length)].name + "! 👀";
+    }],
+    [$("buffet"), () => "Hier siehst du live, was alle mitbringen. Was durchgestrichen ist, ist schon vergeben."]
+  ]);
+  const gesagt = new Set();
+  const beobachter = new IntersectionObserver(eintraege => eintraege.forEach(e => {
+    if (!e.isIntersecting || gesagt.has(e.target) || umschlagZu) return;
+    gesagt.add(e.target);
+    leah.sagen(orte.get(e.target)(), { ort: true });
+  }), { rootMargin: "-42% 0px -42% 0px" });
+  orte.forEach((_, el) => beobachter.observe(el));
+}
+
+/* ---------- Effekte ---------- */
+function konfetti(von) {
+  if (reduziert) return;
+  const r = von.getBoundingClientRect();
+  const zeichen = ["✦", "❄︎", "★", "✧", "❅"];
+  const farben = ["#e8d3a0", "#c9a55c", "#f8f2e6", "#e8475d", "#7fd3a6"];
+  for (let i = 0; i < 28; i++) {
+    const s = document.createElement("span");
+    s.className = "konfetti";
+    s.textContent = zeichen[i % zeichen.length];
+    s.style.color = farben[(i * 3) % farben.length];
+    s.style.left = (r.left + r.width / 2) + "px";
+    s.style.top = (r.top + r.height / 2) + "px";
+    const w = Math.random() * Math.PI * 2, weite = 70 + Math.random() * 170;
+    s.style.setProperty("--x", (Math.cos(w) * weite).toFixed(0) + "px");
+    s.style.setProperty("--y", (Math.sin(w) * weite - 60).toFixed(0) + "px");
+    s.style.setProperty("--d", (Math.random() * 720 - 360).toFixed(0) + "deg");
+    document.body.append(s);
+    setTimeout(() => s.remove(), 1400);
+  }
+}
+function schnee() {
+  if (reduziert) return;
+  const c = $("schnee"), ctx = c.getContext("2d");
+  let w = 0, h = 0, flocken = [];
+  const neu = irgendwo => ({ x: Math.random() * w, y: irgendwo ? Math.random() * h : -6, r: .7 + Math.random() * 2.1, v: .18 + Math.random() * .5, p: Math.random() * 6.3, a: .25 + Math.random() * .5 });
+  function groesse() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const neueBreite = window.innerWidth;
+    h = window.innerHeight;
+    c.width = neueBreite * dpr; c.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (neueBreite !== w) { w = neueBreite; flocken = Array.from({ length: Math.round(Math.min(80, w / 12)) }, () => neu(true)); }
+  }
+  function bild() {
+    ctx.clearRect(0, 0, w, h);
+    for (const f of flocken) {
+      f.y += f.v; f.p += .012; f.x += Math.sin(f.p) * .3;
+      if (f.y > h + 6) Object.assign(f, neu(false));
+      ctx.fillStyle = "rgba(248, 242, 230, " + f.a + ")";
+      ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.2832); ctx.fill();
+    }
+    requestAnimationFrame(bild);
+  }
+  window.addEventListener("resize", groesse);
+  groesse(); bild();
+}
+
+let ketten = 0;
+function lichterkette(box) {
+  const ns = "http://www.w3.org/2000/svg";
+  const farben = ["#f6d68a", "#e8475d", "#7fd3a6", "#fff1c9", "#f0a85a"];
+  const id = "schein" + (++ketten);
+  let breiteVorher = 0;
+  function bauen() {
+    const w = Math.round(box.clientWidth);
+    if (!w || w === breiteVorher) return;
+    breiteVorher = w;
+    const n = Math.max(4, Math.round(w / (w < 600 ? 54 : 70)));
+    const schritt = w / n;
+    const svg = document.createElementNS(ns, "svg");
+    svg.setAttribute("width", w);
+    svg.setAttribute("height", 44);
+    svg.setAttribute("viewBox", "0 0 " + w + " 44");
+    let d = "M0 3";
+    for (let i = 0; i < n; i++) d += " Q " + (i * schritt + schritt / 2).toFixed(1) + " 26 " + ((i + 1) * schritt).toFixed(1) + " 3";
+    svg.innerHTML = '<defs><filter id="' + id + '" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3.2"/></filter></defs><path class="draht" d="' + d + '"/>';
+    for (let i = 0; i < n; i++) {
+      const farbe = farben[i % farben.length];
+      const g = document.createElementNS(ns, "g");
+      g.setAttribute("class", "birne");
+      g.setAttribute("transform", "translate(" + (i * schritt + schritt / 2).toFixed(1) + " 14.5) rotate(" + (i % 2 ? 9 : -9) + ")");
+      g.style.setProperty("--v", (-Math.random() * 4).toFixed(2) + "s");
+      g.style.setProperty("--t", (2.4 + Math.random() * 2.6).toFixed(2) + "s");
+      g.innerHTML =
+        '<circle class="schein" cx="0" cy="10" r="9" fill="' + farbe + '" filter="url(#' + id + ')"/>' +
+        '<rect x="-2.5" y="-.5" width="5" height="4.5" rx="1" fill="#22352d"/>' +
+        '<ellipse cx="0" cy="10" rx="4.2" ry="6.3" fill="' + farbe + '"/>' +
+        '<ellipse cx="-1.3" cy="7.6" rx="1.1" ry="2" fill="#fff" opacity=".6"/>';
+      svg.append(g);
+    }
+    box.replaceChildren(svg);
+  }
+  bauen();
+  window.addEventListener("resize", bauen);
+}
+
+function kugelSpass() {
+  const k = $("kugel");
+  let n = 0;
+  k.addEventListener("click", () => {
+    if (!reduziert) { k.classList.remove("wackeln"); void k.offsetWidth; k.classList.add("wackeln"); }
+    leah.sagen(KUGEL_SPRUECHE[n++ % KUGEL_SPRUECHE.length], { stimmung: "juhu" });
+  });
+  k.addEventListener("animationend", e => { if (e.animationName === "wackeln") k.classList.remove("wackeln"); });
+}
+
+/* ---------- Laden & Start ---------- */
+async function aktualisieren() {
+  try {
+    const s = await holeStand();
+    if (s && s.ok) {
+      stand = s; letzteLadung = Date.now(); ladeFehler = false;
+      zeigeZaehler(); aktualisiereListen(); zeigeGeschlossen();
+    } else if (s && s.error === "code") {
+      ladeFehler = true;
+      $("stand").textContent = FEHLER.code;
+    } else ladeFehler = true;
+  } catch (e) {
+    ladeFehler = true;
+  }
+  zeigeStandZeit();
+}
+
+function start() {
+  zeigeFrist();
+  baueListen();
+  fuelleAus(eigeneAntwort());
+  aktualisiereListen();
+  zeigeGeschlossen();
+  if (demo) {
+    $("demoBand").hidden = false;
+    $("demoReset").addEventListener("click", () => {
+      try { [SPEICHER_DEMO, SPEICHER_ANTWORT, SPEICHER_UMSCHLAG, SPEICHER_ID].forEach(s => localStorage.removeItem(s)); } catch (e) {}
+      location.reload();
+    });
+  }
+  const fehlerWeg = e => {
+    const markiert = e.target.closest(".falsch");
+    if (markiert) { markiert.classList.remove("falsch"); $("fehler").hidden = true; }
+  };
+  form.addEventListener("change", e => {
+    const t = e.target;
+    if (t.name === "kommt" || t.name === "wichtelt") aktualisiereSichtbarkeit(true);
+    if (t.name === "kommt") {
+      leah.sagen(t.value === "ja" ? "JUHU! 🥳 Ich freu mich riesig auf dich!" : "Ohh nein … 😢 Schade! Aber danke, dass du Bescheid sagst.", { stimmung: t.value === "ja" ? "juhu" : "traurig" });
+    } else if (t.name === "wichtelt") {
+      leah.sagen(t.value === "ja" ? "Yay! 🎁 Und psst: Ich verrate nix. 🤫" : "Auch okay! Zuschauen ist auch Sport. 👀", { stimmung: t.value === "ja" ? "juhu" : "" });
+    } else if (t.name === "posten" && t.checked) {
+      const name = POSTEN_NACH_ID[t.value].name;
+      const sprueche = ["Mmh, " + name + "! 😋", name + "? Perfekt!", "Notiert: " + name + " ✍️", name + ", wie schön! 🎄"];
+      leah.sagen(sprueche[Math.floor(Math.random() * sprueche.length)], { stimmung: "juhu" });
+    }
+    fehlerWeg(e);
+  });
+  form.addEventListener("input", e => {
+    if (e.target.name === "extra") pruefeDoppelt();
+    fehlerWeg(e);
+  });
+  form.addEventListener("submit", abschicken);
+  kugelSpass();
+  document.querySelectorAll("[data-lichter]").forEach(lichterkette);
+  leahOrte();
+  if (!umschlagZu) leah.begruessen();
+  aktualisieren();
+  setInterval(() => { if (!document.hidden) aktualisieren(); }, CONFIG.POLL_SECONDS * 1000);
+  setInterval(zeigeStandZeit, 10000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && Date.now() - letzteLadung > 5000) aktualisieren(); });
+  schnee();
+}
+start();
+</script>
+</body>
+</html>
