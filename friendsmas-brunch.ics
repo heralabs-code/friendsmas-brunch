@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Friendsmas Brunch//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:friendsmas-brunch-20261220T100000Z@heralabs-code.github.io
+DTSTAMP:20261102T210550Z
+DTSTART:20261220T100000Z
+DTEND:20261220T140000Z
+SUMMARY:Friendsmas Brunch bei Leah
+DESCRIPTION:Leah lädt ein! Zusagen\, wichteln und die Mitbri
+ ng-Liste: https://heralabs-code.github.io/friendsmas-brunch/
+URL:https://heralabs-code.github.io/friendsmas-brunch/
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Morgen ist Friendsmas Brunch!
+END:VALARM
+END:VEVENT
+END:VCALENDAR

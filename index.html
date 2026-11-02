@@ -1249,7 +1249,7 @@ html.mit-umschlag .umschlag-buehne { display: flex; }
     <p class="kal-wann" id="kalWann">Sonntag, 20. Dezember 2026 · 11 Uhr</p>
     <div class="kal-wahl">
       <a class="kal-option" id="kalGoogle" href="#" target="_blank" rel="noopener">Google Kalender</a>
-      <button type="button" class="kal-option zwei" id="kalIcs">Apple- oder Outlook-Kalender</button>
+      <a class="kal-option zwei" id="kalIcs" href="friendsmas-brunch.ics">Apple- oder Outlook-Kalender</a>
     </div>
     <button class="kal-zu" value="zu">Schließen</button>
   </form>
@@ -1272,6 +1272,7 @@ const CONFIG = {
   AUSLOSUNG: "1. Dezember",
   BUDGET: "15 €",
   // Der Brunch selbst. Antippen auf der Seite = Termin in den eigenen Kalender übernehmen.
+  // Bei einer Änderung auch die Datei friendsmas-brunch.ics anpassen (für Apple- und Outlook-Kalender).
   TERMIN: {
     TITEL: "Friendsmas Brunch bei Leah",
     START: "2026-12-20T11:00:00+01:00",
@@ -1685,36 +1686,6 @@ function googleLink() {
   if (T.ORT) q.set("location", T.ORT);
   return "https://calendar.google.com/calendar/render?" + q.toString();
 }
-function icsText() {
-  const esc = s => String(s).replace(/\\/g, "\\\\").replace(/\r?\n/g, "\\n").replace(/[,;]/g, m => "\\" + m);
-  const falten = z => { const zeichen = Array.from(z), teile = []; for (let i = 0; i < zeichen.length; i += 60) teile.push(zeichen.slice(i, i + 60).join("")); return teile.join("\r\n "); };
-  return [
-    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Friendsmas Brunch//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
-    "BEGIN:VEVENT",
-    "UID:friendsmas-brunch-" + utc(T.START) + "@leah",
-    "DTSTAMP:" + utc(Date.now()),
-    "DTSTART:" + utc(T.START),
-    "DTEND:" + utc(T.ENDE),
-    "SUMMARY:" + esc(T.TITEL),
-    "DESCRIPTION:" + esc(beschreibung()),
-    T.ORT ? "LOCATION:" + esc(T.ORT) : "",
-    "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", "DESCRIPTION:" + esc("Morgen ist Friendsmas Brunch! 🎄"), "END:VALARM",
-    "END:VEVENT", "END:VCALENDAR"
-  ].filter(Boolean).map(falten).join("\r\n") + "\r\n";
-}
-function icsLaden() {
-  const ics = icsText();
-  const apple = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  if (apple) { location.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics); return; }
-  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "friendsmas-brunch.ics";
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 4000);
-}
 function zeigeTermin() {
   const start = new Date(T.START);
   $("terminTag").textContent = start.toLocaleDateString("de-DE", Object.assign({ day: "numeric" }, ZONE)).replace(".", "");
@@ -1730,8 +1701,11 @@ function zeigeTermin() {
     if (typeof dialog.showModal === "function") dialog.showModal();
     else window.open(googleLink(), "_blank", "noopener");
   }));
-  $("kalIcs").addEventListener("click", () => { icsLaden(); dialog.close(); leah.sagen("Super, dann steht der Brunch jetzt in deinem Kalender! 📅", { stimmung: "juhu" }); });
-  $("kalGoogle").addEventListener("click", () => { dialog.close(); leah.sagen("Super, dann steht der Brunch jetzt in deinem Kalender! 📅", { stimmung: "juhu" }); });
+  // Apple/Outlook: echte Datei vom Server (friendsmas-brunch.ics). Das öffnet auf dem iPhone direkt "Zum Kalender hinzufügen".
+  [$("kalIcs"), $("kalGoogle")].forEach(a => a.addEventListener("click", () => {
+    dialog.close();
+    leah.sagen("Super, dann steht der Brunch jetzt in deinem Kalender! 📅", { stimmung: "juhu" });
+  }));
   dialog.addEventListener("click", e => { if (e.target === dialog) dialog.close(); }); // Klick neben die Karte schließt
 }
 
