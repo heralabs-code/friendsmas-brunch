@@ -112,7 +112,11 @@ body::before { /* Kerzenschein-Hintergrund, fest stehend */
 .mini-kugel.gruen { --hell: #9fdcbd; --farbe: #2c6e55; --dunkel: #0d2a20; }
 .mini-kugel.beere { --hell: #f28a99; --farbe: #a31f34; --dunkel: #4e0d18; }
 .mini-kugel.breit { display: none; }
-@media (min-width: 760px) { .mini-kugel.breit { display: block; } }
+@media (min-width: 1100px) { .mini-kugel.breit { display: block; } }
+@media (max-width: 899px) { /* Platz für die Kugel links */
+  .mini-kugel.gold { --x: 28% !important; }
+  .mini-kugel.gruen { --x: 62% !important; }
+}
 
 .kugel {
   position: absolute;
@@ -129,6 +133,8 @@ body::before { /* Kerzenschein-Hintergrund, fest stehend */
   animation: pendeln 5s ease-in-out infinite;
   -webkit-tap-highlight-color: transparent;
 }
+.kugel.links { right: auto; left: .6rem; }
+.kugel.links:not(.wackeln) { animation-duration: 6.2s; animation-delay: -2s; }
 .kugel.wackeln { animation: wackeln 1.5s cubic-bezier(.3, .6, .4, 1); }
 @keyframes wackeln {
   0% { transform: rotate(0); } 15% { transform: rotate(16deg); } 35% { transform: rotate(-12deg); }
@@ -183,11 +189,19 @@ body::before { /* Kerzenschein-Hintergrund, fest stehend */
   filter: blur(1.5px);
   transform: rotate(-32deg);
 }
+.kugel.links .kugel-faden { height: 2.3rem; }
+.kugel.gruen .kugel-koerper {
+  background: radial-gradient(circle at 32% 26%, #9fdcbd 0, #2f7a5e 26%, #1a4c3b 66%, #0a2219 100%);
+}
+.kugel-namen { margin-top: .1rem; font-family: var(--hand); font-weight: 700; font-size: 1.05rem; line-height: .9; color: var(--gold-hell); }
 .kugel-oben { margin-top: .2rem; font-size: .52rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
 .kugel-datum { font-family: var(--display); font-weight: 600; font-size: 1.4rem; line-height: 1.1; margin: .1rem 0 .05rem; }
 .kugel-rest { font-size: .64rem; font-weight: 700; color: var(--gold-hell); }
 @media (min-width: 560px) {
   .kugel { right: 0; }
+  .kugel.links { left: 0; }
+  .kugel.links .kugel-faden { height: 2.9rem; }
+  .kugel-namen { font-size: 1.2rem; }
   .kugel-faden { height: 2rem; }
   .kugel-koerper { width: 6rem; height: 6rem; }
   .kugel-oben { font-size: .6rem; }
@@ -1131,6 +1145,14 @@ html.mit-umschlag .umschlag-buehne { display: flex; }
         <span class="kugel-oben">Antwort bis</span>
         <span class="kugel-datum" id="fristDatum">30.11.</span>
         <span class="kugel-rest" id="fristRest"></span>
+      </span>
+    </button>
+    <button type="button" class="kugel links gruen" id="kugelCredits" aria-label="Designed by Janek und Johannes">
+      <span class="kugel-faden"></span>
+      <span class="kugel-kappe"></span>
+      <span class="kugel-koerper">
+        <span class="kugel-oben">Designed by</span>
+        <span class="kugel-namen">Janek &amp;<br>Johannes</span>
       </span>
     </button>
     <p class="hero-gruss">Leah lädt ein</p>
@@ -2179,13 +2201,17 @@ function lichterkette(box) {
 }
 
 function kugelSpass() {
-  const k = $("kugel");
+  const wackeln = k => { if (!reduziert) { k.classList.remove("wackeln"); void k.offsetWidth; k.classList.add("wackeln"); } };
+  document.querySelectorAll(".kugel").forEach(k => k.addEventListener("animationend", e => { if (e.animationName === "wackeln") k.classList.remove("wackeln"); }));
   let n = 0;
-  k.addEventListener("click", () => {
-    if (!reduziert) { k.classList.remove("wackeln"); void k.offsetWidth; k.classList.add("wackeln"); }
+  $("kugel").addEventListener("click", () => {
+    wackeln($("kugel"));
     leah.sagen(KUGEL_SPRUECHE[n++ % KUGEL_SPRUECHE.length], { stimmung: "juhu" });
   });
-  k.addEventListener("animationend", e => { if (e.animationName === "wackeln") k.classList.remove("wackeln"); });
+  $("kugelCredits").addEventListener("click", () => {
+    wackeln($("kugelCredits"));
+    leah.sagen("Danke, dass du mir wieder die Aufmerksamkeit schenkst!", { stimmung: "juhu" });
+  });
 }
 
 /* ---------- Laden & Start ---------- */
