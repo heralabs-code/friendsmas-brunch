@@ -456,11 +456,10 @@ h1 .zeile-2::after { transform: scaleX(-1); }
 .leah-klein.winkt .arm { opacity: 1; }
 .begleiter.laeuft .leah-klein .leah-svg { animation: gehen .44s ease-in-out infinite; }
 @keyframes gehen { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-6%) rotate(3deg); } }
-.begleiter .sprechblase {
+.begleiter .sprechblase { /* Tipps gehen durch die Blase hindurch, sie verdeckt nie einen Knopf */
   max-width: min(19rem, calc(100vw - 6.4rem));
   margin-bottom: 2.4rem;
-  pointer-events: auto;
-  cursor: pointer;
+  pointer-events: none;
   transform-origin: 0 100%;
   transition: opacity .25s, transform .3s cubic-bezier(.3, 1.4, .5, 1);
 }
@@ -1304,10 +1303,11 @@ const CONFIG = {
   // Wie oft die Mitbring-Liste neu geladen wird (Sekunden)
   POLL_SECONDS: 20,
   // Die Mitbring-Liste. Einträge dürfen ergänzt oder gelöscht werden.
-  // Einen Eintrag, den schon jemand abgehakt hat, bitte nicht umbenennen (sonst verschwindet der Haken).
+  // Steht ein Eintrag mehrfach drin, kann ihn jede dieser Zeilen eine andere Person abhaken (z. B. 3 × "5 Brötchen").
+  // Einen Eintrag, den schon jemand abgehakt hat, bitte nicht umbenennen oder umsortieren (sonst verschwindet der Haken).
   LISTE: [
-    { titel: "Getränke", emoji: "☕", posten: ["Punsch", "Orangensaft", "Apfelsaft", "Kaffee", "Tee", "Sekt", "Wasser"] },
-    { titel: "Essen", emoji: "🥐", posten: ["Brot & Brötchen", "Croissants", "Butter", "Aufstriche & Marmelade", "Käse", "Wurst", "Eier & Warmes", "Obst", "Gemüse & Dip", "Müsli & Joghurt", "Kuchen", "Plätzchen", "Waffeln oder Pancakes"] }
+    { titel: "Getränke", emoji: "☕", posten: ["1 Liter Orangensaft", "1 Liter Orangensaft", "1 Liter Hafermilch", "1 Liter Hafermilch", "Apfelpunsch", "Kinderpunsch"] },
+    { titel: "Essen", emoji: "🥐", posten: ["5 Brötchen", "5 Brötchen", "5 Brötchen", "Kekse", "10 Eier"] }
   ]
 };
 /* ========================================================= */
@@ -1315,9 +1315,17 @@ const CONFIG = {
 function kennung(text) {
   return String(text).toLowerCase()
     .replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
-    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40);
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 36);
 }
-const POSTEN = CONFIG.LISTE.flatMap(g => g.posten.map(name => ({ id: kennung(name), name, gruppe: g.titel })));
+// Jede Zeile bekommt eine eigene Kennung, Wiederholungen werden durchgezählt: 5-broetchen, 5-broetchen-2, 5-broetchen-3
+const POSTEN = (() => {
+  const schon = {};
+  return CONFIG.LISTE.flatMap(g => g.posten.map(name => {
+    const basis = kennung(name);
+    schon[basis] = (schon[basis] || 0) + 1;
+    return { id: schon[basis] > 1 ? basis + "-" + schon[basis] : basis, name, gruppe: g.titel };
+  }));
+})();
 const POSTEN_NACH_ID = Object.fromEntries(POSTEN.map(p => [p.id, p]));
 
 const FEHLER = {
@@ -1578,7 +1586,6 @@ const leah = (() => {
   }
   $("leahGrossKnopf").addEventListener("click", () => antippen(gross));
   $("begleiterKnopf").addEventListener("click", () => antippen(klein));
-  $("blaseKlein").addEventListener("click", () => $("blaseKlein").classList.add("zu"));
 
   // Kleine Leah unten links, sobald die große aus dem Bild ist. Beim ersten Mal ein Hinweis, dass man sie antippen kann.
   let hinweisGegeben = false;
@@ -1609,10 +1616,10 @@ const leah = (() => {
 
 /* ---------- Demo-"Server" (nur wenn keine API_URL gesetzt ist) ---------- */
 const DEMO_START = [
-  { id: "d0000000000000000001", name: "Anna", kommt: "ja", wichtelt: "ja", posten: ["kuchen", "punsch"], extra: "" },
-  { id: "d0000000000000000002", name: "Ole", kommt: "ja", wichtelt: "ja", posten: ["brot-broetchen"], extra: "" },
-  { id: "d0000000000000000003", name: "Maren", kommt: "ja", wichtelt: "nein", posten: ["kaffee"], extra: "" },
-  { id: "d0000000000000000004", name: "Ben", kommt: "ja", wichtelt: "ja", posten: ["eier-warmes"], extra: "Weihnachts-Playlist 🎶" },
+  { id: "d0000000000000000001", name: "Anna", kommt: "ja", wichtelt: "ja", posten: ["kekse", "kinderpunsch"], extra: "" },
+  { id: "d0000000000000000002", name: "Ole", kommt: "ja", wichtelt: "ja", posten: ["5-broetchen"], extra: "" },
+  { id: "d0000000000000000003", name: "Maren", kommt: "ja", wichtelt: "nein", posten: ["1-liter-hafermilch"], extra: "" },
+  { id: "d0000000000000000004", name: "Ben", kommt: "ja", wichtelt: "ja", posten: ["10-eier"], extra: "Weihnachts-Playlist 🎶" },
   { id: "d0000000000000000005", name: "Lina", kommt: "nein", wichtelt: "nein", posten: [], extra: "" }
 ];
 function demoZeilen() { return lies(SPEICHER_DEMO) || DEMO_START.slice(); }
@@ -1768,8 +1775,7 @@ function baueListen() {
     h2.textContent = g.titel;
     const ol = document.createElement("ul");
     ol.className = "eintraege";
-    g.posten.forEach(name => {
-      const id = kennung(name);
+    POSTEN.filter(p => p.gruppe === g.titel).forEach(({ id, name }) => {
       const li = document.createElement("li");
       li.className = "posten";
       li.dataset.id = id;
@@ -1842,7 +1848,7 @@ function aktualisiereListen() {
 
   // Freie Plätze je Gruppe im Formular
   CONFIG.LISTE.forEach(g => {
-    const frei = g.posten.filter(n => !vergeben[kennung(n)]).length;
+    const frei = POSTEN.filter(p => p.gruppe === g.titel && !vergeben[p.id]).length;
     const el = $("liste").querySelector('[data-gruppe="' + g.titel + '"]');
     if (el) el.textContent = frei ? "noch " + frei + " frei" : "alles vergeben";
   });
@@ -1898,7 +1904,9 @@ function pruefeDoppelt() {
   if (eingabe.length < 3 || !stand) { letzterDoppelt = ""; return; }
   const passt = n => n === eingabe || (Math.min(n.length, eingabe.length) >= 4 && (n.includes(eingabe) || eingabe.includes(n)));
   const eigen = eigeneAntwort();
-  const posten = POSTEN.find(p => passt(normal(p.name)));
+  // Bei mehrfachen Einträgen zählt eine noch freie Zeile ("hak es ab") vor einer vergebenen
+  const treffer = POSTEN.filter(p => passt(normal(p.name)));
+  const posten = treffer.find(p => !(stand.vergeben && stand.vergeben[p.id])) || treffer[0];
   const extra = ((stand && stand.extras) || []).find(x => passt(normal(x.was)) && !(eigen && gleicherName(x.name, eigen.name)));
   let text = "";
   if (posten) {
